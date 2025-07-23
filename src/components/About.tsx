@@ -18,49 +18,57 @@ const skills = [
     category: "Cloud Platforms",
     icon: <Cloud className="h-6 w-6" />,
     items: ["Google Cloud Platform", "GCP GKE", "Multi-cloud Architecture"],
-    description: "Expertise in GCP with deep knowledge of cloud-native solutions"
+    description: "Expertise in GCP with deep knowledge of cloud-native solutions",
+    proficiency: 80
   },
   {
     category: "Container Orchestration", 
     icon: <Container className="h-6 w-6" />,
     items: ["Kubernetes", "Docker", "Helm", "Container Security"],
-    description: "Advanced Kubernetes administration and container orchestration"
+    description: "Advanced Kubernetes administration and container orchestration",
+    proficiency: 80
   },
   {
     category: "Infrastructure as Code",
     icon: <Settings className="h-6 w-6" />,
     items: ["Terraform", "Ansible", "CloudFormation", "Pulumi"],
-    description: "Automated infrastructure provisioning and configuration management"
+    description: "Automated infrastructure provisioning and configuration management",
+    proficiency: 75
   },
   {
     category: "CI/CD & GitOps",
     icon: <GitBranch className="h-6 w-6" />,
     items: ["Jenkins", "GitHub Actions", "ArgoCD", "GitLab CI"],
-    description: "Automated deployment pipelines and GitOps workflows"
+    description: "Automated deployment pipelines and GitOps workflows",
+    proficiency: 70
   },
   {
     category: "Monitoring & Observability",
     icon: <Monitor className="h-6 w-6" />,
     items: ["Prometheus", "Grafana", "ELK Stack", "Jaeger"],
-    description: "Comprehensive monitoring, logging, and distributed tracing"
+    description: "Comprehensive monitoring, logging, and distributed tracing",
+    proficiency: 60
   },
   {
     category: "Database & Storage",
     icon: <Database className="h-6 w-6" />,
     items: ["PostgreSQL", "MongoDB", "Redis", "Cloud Storage"],
-    description: "Database administration and cloud storage solutions"
+    description: "Database administration and cloud storage solutions",
+    proficiency: 60
   },
   {
     category: "Security & Compliance",
     icon: <Shield className="h-6 w-6" />,
     items: ["RBAC", "Network Security", "Secrets Management", "Compliance"],
-    description: "Security best practices and compliance frameworks"
+    description: "Security best practices and compliance frameworks",
+    proficiency: 75
   },
   {
     category: "Performance & Scaling",
     icon: <Zap className="h-6 w-6" />,
     items: ["Auto-scaling", "Load Balancing", "Performance Tuning", "Cost Optimization"],
-    description: "High-performance system design and cost-effective scaling"
+    description: "High-performance system design and cost-effective scaling",
+    proficiency: 70
   }
 ];
 
@@ -74,7 +82,6 @@ export default function About() {
       <div className="container mx-auto px-6">
         {/* About Me Section */}
         <div className="grid lg:grid-cols-2 gap-16 items-start mb-32">
-          {/* Left Column - About Text */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -103,7 +110,6 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Right Column - Experience & Certifications */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -175,7 +181,6 @@ export default function About() {
           </motion.div>
         </div>
 
-        {/* Skills Section - Separate with spacing */}
         <motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 20 }}
@@ -192,7 +197,6 @@ export default function About() {
           </p>
         </motion.div>
 
-        {/* Skills Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {skills.map((skill, index) => (
             <motion.div
@@ -214,7 +218,7 @@ export default function About() {
                   {skill.description}
                 </p>
                 
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {skill.items.map((item) => (
                     <Badge 
                       key={item} 
@@ -225,6 +229,19 @@ export default function About() {
                     </Badge>
                   ))}
                 </div>
+
+                <div className="relative w-full h-2 bg-muted rounded-full overflow-hidden">
+                  <motion.div
+                    className="absolute inset-0 bg-gradient-to-r from-neon-blue to-neon-purple"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: `${skill.proficiency}%` }}
+                    transition={{ duration: 1.2, ease: "easeOut" }}
+                    viewport={{ once: true }}
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground mt-2">
+                  Proficiency: {skill.proficiency}%
+                </p>
               </Card>
             </motion.div>
           ))}

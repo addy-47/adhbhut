@@ -31,13 +31,11 @@ export default function Hypercube() {
 
     const container = containerRef.current;
     
-    // Scene setup with better camera positioning
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(3, 2, 9);
+    camera.position.set(3, 2, 12); // Increased z-position to ensure visibility
     camera.lookAt(0, 0, 0);
 
-    // Renderer with completely transparent background
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: true,
@@ -45,16 +43,14 @@ export default function Hypercube() {
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0); // Completely transparent
+    renderer.setClearColor(0x000000, 0);
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
 
-    // Create main constellation group
     const techConstellation = new THREE.Group();
     scene.add(techConstellation);
 
-    // Enhanced vertex positions for better 3D distribution
     const createSphereVertices = (count: number, radius: number) => {
       const vertices = [];
       for (let i = 0; i < count; i++) {
@@ -70,41 +66,32 @@ export default function Hypercube() {
       return vertices;
     };
 
-    const vertices = createSphereVertices(toolLogos.length, 3.5);
+    const vertices = createSphereVertices(toolLogos.length, 3.3); // Reduced radius to prevent clipping
     
-    // Create enhanced logo sprites with glow effects
     const textureLoader = new THREE.TextureLoader();
     const sprites: THREE.Sprite[] = [];
 
     vertices.forEach((vertex, i) => {
       if (toolLogos[i]) {
-        // Main sprite with better texture handling
         const texture = textureLoader.load(
           toolLogos[i].url,
-          // onLoad callback
           () => {
-            // Texture loaded successfully
             sprite.material.needsUpdate = true;
           },
-          // onProgress callback
           undefined,
-          // onError callback - fallback to colored circle
           () => {
             console.warn(`Failed to load texture for ${toolLogos[i].name}`);
-            // Create a fallback circular sprite
             const canvas = document.createElement('canvas');
             canvas.width = 128;
             canvas.height = 128;
             const ctx = canvas.getContext('2d')!;
             
-            // Draw colored circle
             ctx.fillStyle = `#${toolLogos[i].color.toString(16).padStart(6, '0')}`;
             ctx.beginPath();
             ctx.arc(64, 64, 50, 0, Math.PI * 2);
             ctx.fill();
             
-            // Add text
-            ctx.fillStyle = 'white';
+            ctx.fillStyle = '#FFFFFF';
             ctx.font = 'bold 16px Arial';
             ctx.textAlign = 'center';
             ctx.fillText(toolLogos[i].name.slice(0, 3), 64, 70);
@@ -118,19 +105,20 @@ export default function Hypercube() {
         const material = new THREE.SpriteMaterial({ 
           map: texture, 
           transparent: true,
-          alphaTest: 0.5, // Higher alpha test to remove square backgrounds
-          opacity: 1.0
+          alphaTest: 0.5,
+          opacity: 1.0,
+          color: 0xFFFFFF // Ensure original colors are preserved
         });
         
         const sprite = new THREE.Sprite(material);
         sprite.position.copy(vertex);
-        sprite.scale.set(1.5, 1.5, 1.5); // Slightly larger for better visibility
+        sprite.scale.set(1.6, 1.6, 1.6); // Reduced scale to prevent clipping
         sprite.userData = {
           name: toolLogos[i].name,
           initialPosition: vertex.clone(),
           targetPosition: vertex.clone(),
           color: toolLogos[i].color,
-          originalScale: 1.5,
+          originalScale: 1.2,
           isHighlighted: false,
           rotationSpeed: 0.01 + Math.random() * 0.02
         };
@@ -139,14 +127,11 @@ export default function Hypercube() {
       }
     });
 
-    // Create dynamic connection system
     const connections: THREE.Line[] = [];
     const createConnections = () => {
-      // Clear existing connections
       connections.forEach(line => techConstellation.remove(line));
       connections.length = 0;
 
-      // Create selective connections for better visual flow
       for (let i = 0; i < sprites.length; i++) {
         const connectionsPerSprite = Math.floor(Math.random() * 3) + 1;
         const availableTargets = sprites.filter((_, index) => index !== i);
@@ -155,7 +140,7 @@ export default function Hypercube() {
           const targetIndex = Math.floor(Math.random() * availableTargets.length);
           const target = availableTargets[targetIndex];
           
-          if (target && sprites[i].position.distanceTo(target.position) < 8) {
+          if (target && sprites[i].position.distanceTo(target.position) < 6) { // Adjusted distance
             const material = new THREE.LineBasicMaterial({
               color: new THREE.Color().lerpColors(
                 new THREE.Color(sprites[i].userData.color),
@@ -182,7 +167,6 @@ export default function Hypercube() {
 
     createConnections();
 
-    // Enhanced lighting setup
     const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
     scene.add(ambientLight);
     
@@ -191,7 +175,6 @@ export default function Hypercube() {
     directionalLight.castShadow = true;
     scene.add(directionalLight);
 
-    // Dynamic colored lights
     const createDynamicLight = (color: number, position: THREE.Vector3) => {
       const light = new THREE.PointLight(color, 1, 20);
       light.position.copy(position);
@@ -205,23 +188,19 @@ export default function Hypercube() {
       createDynamicLight(0xFF6B35, new THREE.Vector3(4, 8, -6))
     ];
 
-    // Animation variables
     let time = 0;
     let highlightIndex = 0;
     let lastHighlightTime = 0;
-    const highlightDuration = 3000; // 3 seconds per highlight
+    const highlightDuration = 3000;
 
-    // Smooth animation function
     const animate = () => {
       const animationFrame = requestAnimationFrame(animate);
       sceneRef.current.animationFrame = animationFrame;
       
-      time += 0.016; // ~60fps
+      time += 0.016;
       const currentTime = Date.now();
 
-      // Handle highlighting system
       if (currentTime - lastHighlightTime > highlightDuration) {
-        // Reset previous highlight
         if (sprites[highlightIndex]) {
           sprites[highlightIndex].userData.isHighlighted = false;
         }
@@ -229,17 +208,14 @@ export default function Hypercube() {
         highlightIndex = (highlightIndex + 1) % sprites.length;
         lastHighlightTime = currentTime;
         
-        // Set new highlight
         if (sprites[highlightIndex]) {
           sprites[highlightIndex].userData.isHighlighted = true;
         }
       }
 
-      // Animate sprites with smooth floating and highlighting
       sprites.forEach((sprite, index) => {
         const userData = sprite.userData;
         
-        // Base floating animation
         const floatX = Math.sin(time * 0.5 + index * 0.8) * 0.3;
         const floatY = Math.cos(time * 0.3 + index * 1.2) * 0.4;
         const floatZ = Math.sin(time * 0.7 + index * 0.6) * 0.3;
@@ -247,25 +223,20 @@ export default function Hypercube() {
         userData.targetPosition.copy(userData.initialPosition);
         userData.targetPosition.add(new THREE.Vector3(floatX, floatY, floatZ));
         
-        // Highlighting effect
         if (userData.isHighlighted) {
-          // Move to front and enlarge
-          const highlightOffset = new THREE.Vector3(0, 0, 2);
+          const highlightOffset = new THREE.Vector3(0, 0, 1.5); // Reduced offset
           userData.targetPosition.add(highlightOffset);
-          userData.targetScale = 2.5;
+          userData.targetScale = 2.0;
         } else {
           userData.targetScale = userData.originalScale;
         }
         
-        // Smooth interpolation
         sprite.position.lerp(userData.targetPosition, 0.05);
         sprite.scale.lerp(new THREE.Vector3(userData.targetScale, userData.targetScale, userData.targetScale), 0.08);
         
-        // Smooth rotation
         sprite.rotation.z += userData.rotationSpeed;
       });
 
-      // Update connections
       connections.forEach(line => {
         const { sprite1, sprite2 } = line.userData;
         const positions = line.geometry.attributes.position.array as Float32Array;
@@ -279,17 +250,14 @@ export default function Hypercube() {
         
         line.geometry.attributes.position.needsUpdate = true;
         
-        // Animate connection opacity based on distance
         const distance = sprite1.position.distanceTo(sprite2.position);
         (line.material as THREE.LineBasicMaterial).opacity = Math.max(0.05, 0.4 - distance * 0.05);
       });
 
-      // Gentle constellation rotation
       techConstellation.rotation.y += 0.003;
       techConstellation.rotation.x += 0.001;
       techConstellation.rotation.z += 0.002;
 
-      // Animate dynamic lights
       dynamicLights.forEach((light, index) => {
         const lightTime = time + index * 2;
         light.position.x = Math.sin(lightTime * 0.5) * 8;
@@ -298,7 +266,6 @@ export default function Hypercube() {
         light.intensity = 0.8 + Math.sin(lightTime * 2) * 0.3;
       });
 
-      // Camera subtle movement
       camera.position.x = 3 + Math.sin(time * 0.1) * 0.5;
       camera.position.y = 2 + Math.cos(time * 0.15) * 0.3;
       camera.lookAt(0, 0, 0);
@@ -306,7 +273,6 @@ export default function Hypercube() {
       renderer.render(scene, camera);
     };
 
-    // Handle resize
     const handleResize = () => {
       if (!container) return;
       camera.aspect = container.clientWidth / container.clientHeight;
@@ -314,13 +280,11 @@ export default function Hypercube() {
       renderer.setSize(container.clientWidth, container.clientHeight);
     };
 
-    // Mouse interaction
     const handleMouseMove = (event: MouseEvent) => {
       const rect = container.getBoundingClientRect();
       const mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
       const mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
       
-      // Subtle camera follow
       camera.position.x = 3 + mouseX * 0.5;
       camera.position.y = 2 + mouseY * 0.3;
     };
@@ -328,7 +292,6 @@ export default function Hypercube() {
     window.addEventListener('resize', handleResize);
     container.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Store references
     sceneRef.current = { 
       scene, 
       renderer, 
@@ -340,10 +303,8 @@ export default function Hypercube() {
       lastHighlightTime
     };
 
-    // Start animation
     animate();
 
-    // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
       container.removeEventListener('mousemove', handleMouseMove);
@@ -352,7 +313,6 @@ export default function Hypercube() {
         cancelAnimationFrame(sceneRef.current.animationFrame);
       }
       
-      // Dispose of materials and geometries
       sprites.forEach(sprite => {
         (sprite.material as THREE.SpriteMaterial).dispose();
         const material = sprite.material as THREE.SpriteMaterial;
