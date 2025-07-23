@@ -393,7 +393,13 @@ export default function ProjectDialog({ isOpen, onClose, project }: ProjectDialo
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-7xl max-h-[95vh] overflow-y-auto bg-card border border-neon-purple/20 shadow-2xl">
+      <DialogContent className="max-w-7xl max-h-[95vh] overflow-y-auto bg-card border border-neon-purple/20 shadow-2xl
+        [&::-webkit-scrollbar]:w-2
+        [&::-webkit-scrollbar-track]:rounded-full
+        [&::-webkit-scrollbar-track]:bg-black/20
+        [&::-webkit-scrollbar-thumb]:rounded-full
+        [&::-webkit-scrollbar-thumb]:bg-neon-purple/70
+        hover:[&::-webkit-scrollbar-thumb]:bg-neon-purple">
         <DialogHeader>
           <DialogTitle className="text-3xl font-bold text-foreground mb-6 text-center glow-text">
             {project.title}

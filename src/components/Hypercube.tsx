@@ -9,7 +9,7 @@ const toolLogos = [
   { name: 'Grafana', url: 'https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg', color: 0xF46800 },
   { name: 'Prometheus', url: 'https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg', color: 0xE6522C },
   { name: 'ArgoCD', url: 'https://www.vectorlogo.zone/logos/argoprojio/argoprojio-icon.svg', color: 0xEF7B4D },
-  { name: 'Helm', url: 'https://www.vectorlogo.zone/logos/helm_sh/helm_sh-icon.svg', color: 0x0F1689 }
+  { name: 'Ansible', url: 'https://www.vectorlogo.zone/logos/ansible/ansible-icon.svg', color: 0xEE0000 }
 ];
 
 export default function Hypercube() {
@@ -34,7 +34,7 @@ export default function Hypercube() {
     // Scene setup with better camera positioning
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(3, 2, 8);
+    camera.position.set(3, 2, 9);
     camera.lookAt(0, 0, 0);
 
     // Renderer with completely transparent background
@@ -70,12 +70,11 @@ export default function Hypercube() {
       return vertices;
     };
 
-    const vertices = createSphereVertices(toolLogos.length, 4);
+    const vertices = createSphereVertices(toolLogos.length, 3.5);
     
     // Create enhanced logo sprites with glow effects
     const textureLoader = new THREE.TextureLoader();
     const sprites: THREE.Sprite[] = [];
-    const glowSprites: (THREE.Mesh | THREE.Sprite)[] = [];
 
     vertices.forEach((vertex, i) => {
       if (toolLogos[i]) {
@@ -137,24 +136,6 @@ export default function Hypercube() {
         };
         techConstellation.add(sprite);
         sprites.push(sprite);
-
-        // Subtle glow effect - circular background
-        const glowGeometry = new THREE.CircleGeometry(1, 32);
-        const glowMaterial = new THREE.MeshBasicMaterial({
-          color: new THREE.Color(toolLogos[i].color),
-          transparent: true,
-          opacity: 0.2,
-          blending: THREE.AdditiveBlending
-        });
-        const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
-        glowMesh.position.copy(vertex);
-        glowMesh.scale.set(0.8, 0.8, 0.8);
-        
-        // Make the glow always face camera
-        glowMesh.lookAt(camera.position);
-        
-        techConstellation.add(glowMesh);
-        glowSprites.push(glowMesh as any); // Cast to maintain compatibility
       }
     });
 
@@ -272,28 +253,8 @@ export default function Hypercube() {
           const highlightOffset = new THREE.Vector3(0, 0, 2);
           userData.targetPosition.add(highlightOffset);
           userData.targetScale = 2.5;
-          
-          // Update glow intensity
-          if (glowSprites[index]) {
-            const glowObject = glowSprites[index];
-            if (glowObject instanceof THREE.Mesh) {
-              (glowObject.material as THREE.MeshBasicMaterial).opacity = 0.6;
-            } else {
-              (glowObject.material as THREE.SpriteMaterial).opacity = 0.6;
-            }
-          }
         } else {
           userData.targetScale = userData.originalScale;
-          
-          // Reset glow intensity
-          if (glowSprites[index]) {
-            const glowObject = glowSprites[index];
-            if (glowObject instanceof THREE.Mesh) {
-              (glowObject.material as THREE.MeshBasicMaterial).opacity = 0.2;
-            } else {
-              (glowObject.material as THREE.SpriteMaterial).opacity = 0.2;
-            }
-          }
         }
         
         // Smooth interpolation
@@ -302,12 +263,6 @@ export default function Hypercube() {
         
         // Smooth rotation
         sprite.rotation.z += userData.rotationSpeed;
-        
-        // Update glow sprite position and scale
-        if (glowSprites[index]) {
-          glowSprites[index].position.copy(sprite.position);
-          glowSprites[index].scale.copy(sprite.scale).multiplyScalar(1.5);
-        }
       });
 
       // Update connections
@@ -402,10 +357,6 @@ export default function Hypercube() {
         (sprite.material as THREE.SpriteMaterial).dispose();
         const material = sprite.material as THREE.SpriteMaterial;
         if (material.map) material.map.dispose();
-      });
-      
-      glowSprites.forEach(glowSprite => {
-        (glowSprite.material as THREE.SpriteMaterial).dispose();
       });
       
       connections.forEach(line => {
