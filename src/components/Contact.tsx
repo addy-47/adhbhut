@@ -138,7 +138,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-          >
+          > 
             <Card className="p-8 bg-card glow-border">
               <h3 className="text-2xl font-semibold mb-6 text-neon-cyan">Send a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -186,8 +186,8 @@ export default function Contact() {
                 </Button>
               </form>
             </Card>
-          </motion.div>
-        </div>
+          </motion.div>*/
+        </div>  
 
         {/* Call to Action */}
         <motion.div
@@ -213,5 +213,5 @@ export default function Contact() {
         </motion.div>
       </div>
     </section>
-  );
-}
+    );
+} 

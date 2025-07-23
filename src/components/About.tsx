@@ -65,10 +65,7 @@ const skills = [
 ];
 
 const certifications = [
-  "Google Cloud Professional Cloud Architect",
-  "Certified Kubernetes Administrator (CKA)",
-  "Google Cloud Professional DevOps Engineer",
-  "HashiCorp Certified: Terraform Associate"
+  "Google Cloud Assistant Cloud Engineer",
 ];
 
 export default function About() {
@@ -90,14 +87,18 @@ export default function About() {
                 About <span className="glow-text">Me</span>
               </h2>
               <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-                DevOps Engineer with expertise in cloud infrastructure, container orchestration, 
-                and automated deployment pipelines. Specialized in Google Cloud Platform with a passion 
-                for building scalable, reliable systems.
+                I’m a passionate tech enthusiast with a unique journey that began in the vibrant 
+                world of textile business in Delhi. Fueled by curiosity and a drive to innovate, 
+                I pivoted to technology, diving headfirst into the dynamic fields of DevOps and cloud computing. 
+                In just under a month, I earned a Google Cloud certification, showcasing my ability to master 
+                complex systems quickly. My expertise now lies in building scalable solutions using 
+                tools like Terraform, Docker, and CI/CD pipelines, with hands-on experience in Google Cloud Platform.
               </p>
               <p className="text-lg text-muted-foreground leading-relaxed">
-                I transform complex infrastructure challenges into elegant, automated solutions. 
-                My expertise spans from designing CI/CD pipelines to implementing monitoring systems 
-                that ensure 99.9% uptime for mission-critical applications.
+                Beyond tech, I’m an avid video game enthusiast, often immersing myself in strategic gameplay, 
+                and a dedicated chess player, where I enjoy the thrill of outsmarting opponents. 
+                My diverse background fuels my creativity, and I’m always eager to tackle new challenges, 
+                blending business acumen with technical precision to craft impactful solutions.
               </p>
             </div>
           </motion.div>
@@ -112,23 +113,50 @@ export default function About() {
           >
             <Card className="p-6 bg-card/80 backdrop-blur-sm glow-border">
               <h3 className="text-xl font-bold mb-4 glow-text">Experience</h3>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <div className="border-l-2 border-neon-purple pl-4">
-                  <h4 className="font-semibold text-lg">DevOps Engineer</h4>
-                  <p className="text-neon-blue">Freelance & Personal Projects</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Specialized in GCP-based cloud infrastructure, Kubernetes orchestration, 
-                    and automated CI/CD pipelines. Built scalable microservices architectures 
-                    with comprehensive monitoring and observability.
-                  </p>
+                  <h4 className="font-semibold text-lg">Dev-ops intern</h4>
+                  <p className="text-neon-blue">Hypr4 pvt. ltd. (June 2025 - present)</p>
+                  <div className="space-y-3 mt-2">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Design and deploy scalable cloud infrastructure using Terraform on Google Cloud Platform.</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Streamline development workflows with CI/CD pipelines using GitHub Actions.</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Manage project migrations, ensuring seamless data transitions to modern cloud environments.</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Test and optimize applications for performance and reliability in production.</span>
+                    </div>
+                  </div>
                 </div>
                 <div className="border-l-2 border-neon-blue pl-4">
-                  <h4 className="font-semibold text-lg">Cloud Infrastructure Focus</h4>
-                  <p className="text-neon-purple">Google Cloud Platform</p>
-                  <p className="text-sm text-muted-foreground mt-2">
-                    Deep expertise in GCP services including GKE, Cloud Run, Cloud Functions, 
-                    and Infrastructure as Code using Terraform for automated provisioning.
-                  </p>
+                  <h4 className="font-semibold text-lg">Operations & Digital Strategy Manager</h4>
+                  <p className="text-neon-blue">Hritik Textiles (Aug 2021 - May 2025)</p>
+                  <div className="space-y-3 mt-2">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Led a team of three to boost operational efficiency and achieve sales targets.</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Spearheaded digital transformation, launching online presence via WhatsApp, Meesho, YouTube, and Instagram.</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Increased sales by 30% through innovative digital strategies.</span>
+                    </div>
+                    <div className="flex items-start space-x-3">
+                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
+                      <span className="text-muted-foreground">Grew client base by 20% with a focus on customer satisfaction and retention.</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </Card>
@@ -142,14 +170,6 @@ export default function About() {
                     <span className="text-muted-foreground">{cert}</span>
                   </div>
                 ))}
-              </div>
-              
-              <div className="mt-6 p-4 bg-gradient-glow/20 rounded-xl border border-neon-cyan/20">
-                <h4 className="font-semibold text-neon-cyan mb-2">Currently Pursuing</h4>
-                <p className="text-sm text-muted-foreground">
-                  Advanced GCP certifications and exploring emerging cloud-native technologies 
-                  including service mesh, observability platforms, and GitOps methodologies.
-                </p>
               </div>
             </Card>
           </motion.div>
