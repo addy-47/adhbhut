@@ -1,20 +1,15 @@
-
 import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { gsap } from 'gsap';
 
 const toolLogos = [
-  { name: 'Kubernetes', url: 'https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg' },
-  { name: 'Docker', url: 'https://www.vectorlogo.zone/logos/docker/docker-icon.svg' },
-  { name: 'Terraform', url: 'https://www.vectorlogo.zone/logos/terraformio/terraformio-icon.svg' },
-  { name: 'GCP', url: 'https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg' },
-  { name: 'Grafana', url: 'https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg' },
-  { name: 'Prometheus', url: 'https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg' },
-  { name: 'ArgoCD', url: 'https://www.vectorlogo.zone/logos/argoprojio/argoprojio-icon.svg' },
-  { name: 'Helm', url: 'https://www.vectorlogo.zone/logos/helm_sh/helm_sh-icon.svg' }
+  { name: 'Kubernetes', url: 'https://www.vectorlogo.zone/logos/kubernetes/kubernetes-icon.svg', color: 0x326CE5 },
+  { name: 'Docker', url: 'https://www.vectorlogo.zone/logos/docker/docker-icon.svg', color: 0x2496ED },
+  { name: 'Terraform', url: 'https://www.vectorlogo.zone/logos/terraformio/terraformio-icon.svg', color: 0x7B42BC },
+  { name: 'GCP', url: 'https://www.vectorlogo.zone/logos/google_cloud/google_cloud-icon.svg', color: 0x4285F4 },
+  { name: 'Grafana', url: 'https://www.vectorlogo.zone/logos/grafana/grafana-icon.svg', color: 0xF46800 },
+  { name: 'Prometheus', url: 'https://www.vectorlogo.zone/logos/prometheusio/prometheusio-icon.svg', color: 0xE6522C },
+  { name: 'ArgoCD', url: 'https://www.vectorlogo.zone/logos/argoprojio/argoprojio-icon.svg', color: 0xEF7B4D },
+  { name: 'Helm', url: 'https://www.vectorlogo.zone/logos/helm_sh/helm_sh-icon.svg', color: 0x0F1689 }
 ];
 
 export default function Hypercube() {
@@ -23,9 +18,12 @@ export default function Hypercube() {
     scene?: THREE.Scene;
     renderer?: THREE.WebGLRenderer;
     camera?: THREE.PerspectiveCamera;
-    composer?: EffectComposer;
     animationFrame?: number;
-    tesseractGroup?: THREE.Group;
+    techConstellation?: THREE.Group;
+    sprites?: THREE.Sprite[];
+    connections?: THREE.Line[];
+    highlightIndex?: number;
+    lastHighlightTime?: number;
   }>({});
 
   useEffect(() => {
@@ -33,106 +31,169 @@ export default function Hypercube() {
 
     const container = containerRef.current;
     
-    // Scene setup
+    // Scene setup with better camera positioning
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-    
-    // Position camera for optimal viewing
-    camera.position.set(0, 0, 8);
+    const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(3, 2, 8);
+    camera.lookAt(0, 0, 0);
 
     // Renderer with completely transparent background
     const renderer = new THREE.WebGLRenderer({ 
       antialias: true, 
       alpha: true,
-      premultipliedAlpha: false
+      powerPreference: "high-performance"
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0);
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    renderer.setClearColor(0x000000, 0); // Completely transparent
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     container.appendChild(renderer.domElement);
+
+    // Create main constellation group
+    const techConstellation = new THREE.Group();
+    scene.add(techConstellation);
+
+    // Enhanced vertex positions for better 3D distribution
+    const createSphereVertices = (count: number, radius: number) => {
+      const vertices = [];
+      for (let i = 0; i < count; i++) {
+        const phi = Math.acos(-1 + (2 * i) / count);
+        const theta = Math.sqrt(count * Math.PI) * phi;
+        
+        const x = radius * Math.cos(theta) * Math.sin(phi);
+        const y = radius * Math.sin(theta) * Math.sin(phi);
+        const z = radius * Math.cos(phi);
+        
+        vertices.push(new THREE.Vector3(x, y, z));
+      }
+      return vertices;
+    };
+
+    const vertices = createSphereVertices(toolLogos.length, 4);
     
-    // Post-processing for glow effects
-    const renderScene = new RenderPass(scene, camera);
-    const bloomPass = new UnrealBloomPass(
-      new THREE.Vector2(container.clientWidth, container.clientHeight), 
-      2.5, 
-      0.8, 
-      0.9
-    );
-    bloomPass.threshold = 0;
-    bloomPass.strength = 2.0;
-    bloomPass.radius = 0.3;
-
-    const composer = new EffectComposer(renderer);
-    composer.addPass(renderScene);
-    composer.addPass(bloomPass);
-
-    // Create floating tech constellation
-    const tesseractGroup = new THREE.Group();
-    tesseractGroup.position.set(0, 0, 0);
-    scene.add(tesseractGroup);
-
-    // Create vertices in a more spread out 3D formation
-    const vertices = [
-      new THREE.Vector3(4, 3, 2), new THREE.Vector3(4, 3, -2),
-      new THREE.Vector3(4, -3, 2), new THREE.Vector3(4, -3, -2),
-      new THREE.Vector3(0, 3, 2), new THREE.Vector3(0, 3, -2),
-      new THREE.Vector3(0, -3, 2), new THREE.Vector3(0, -3, -2)
-    ];
-    
-    const logoSprites = new THREE.Group();
-    tesseractGroup.add(logoSprites);
-
-    // Create floating logo sprites
+    // Create enhanced logo sprites with glow effects
     const textureLoader = new THREE.TextureLoader();
     const sprites: THREE.Sprite[] = [];
-    
+    const glowSprites: (THREE.Mesh | THREE.Sprite)[] = [];
+
     vertices.forEach((vertex, i) => {
       if (toolLogos[i]) {
-        const texture = textureLoader.load(toolLogos[i].url);
+        // Main sprite with better texture handling
+        const texture = textureLoader.load(
+          toolLogos[i].url,
+          // onLoad callback
+          () => {
+            // Texture loaded successfully
+            sprite.material.needsUpdate = true;
+          },
+          // onProgress callback
+          undefined,
+          // onError callback - fallback to colored circle
+          () => {
+            console.warn(`Failed to load texture for ${toolLogos[i].name}`);
+            // Create a fallback circular sprite
+            const canvas = document.createElement('canvas');
+            canvas.width = 128;
+            canvas.height = 128;
+            const ctx = canvas.getContext('2d')!;
+            
+            // Draw colored circle
+            ctx.fillStyle = `#${toolLogos[i].color.toString(16).padStart(6, '0')}`;
+            ctx.beginPath();
+            ctx.arc(64, 64, 50, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Add text
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 16px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(toolLogos[i].name.slice(0, 3), 64, 70);
+            
+            const fallbackTexture = new THREE.CanvasTexture(canvas);
+            sprite.material.map = fallbackTexture;
+            sprite.material.needsUpdate = true;
+          }
+        );
+        
         const material = new THREE.SpriteMaterial({ 
           map: texture, 
-          transparent: true, 
-          alphaTest: 0.5,
-          opacity: 0.9
+          transparent: true,
+          alphaTest: 0.5, // Higher alpha test to remove square backgrounds
+          opacity: 1.0
         });
+        
         const sprite = new THREE.Sprite(material);
         sprite.position.copy(vertex);
-        sprite.scale.set(1.8, 1.8, 1.8);
-        sprite.userData.name = toolLogos[i].name;
-        sprite.userData.initialPosition = vertex.clone();
-        sprite.userData.floatOffset = Math.random() * Math.PI * 2;
-        logoSprites.add(sprite);
+        sprite.scale.set(1.5, 1.5, 1.5); // Slightly larger for better visibility
+        sprite.userData = {
+          name: toolLogos[i].name,
+          initialPosition: vertex.clone(),
+          targetPosition: vertex.clone(),
+          color: toolLogos[i].color,
+          originalScale: 1.5,
+          isHighlighted: false,
+          rotationSpeed: 0.01 + Math.random() * 0.02
+        };
+        techConstellation.add(sprite);
         sprites.push(sprite);
+
+        // Subtle glow effect - circular background
+        const glowGeometry = new THREE.CircleGeometry(1, 32);
+        const glowMaterial = new THREE.MeshBasicMaterial({
+          color: new THREE.Color(toolLogos[i].color),
+          transparent: true,
+          opacity: 0.2,
+          blending: THREE.AdditiveBlending
+        });
+        const glowMesh = new THREE.Mesh(glowGeometry, glowMaterial);
+        glowMesh.position.copy(vertex);
+        glowMesh.scale.set(0.8, 0.8, 0.8);
+        
+        // Make the glow always face camera
+        glowMesh.lookAt(camera.position);
+        
+        techConstellation.add(glowMesh);
+        glowSprites.push(glowMesh as any); // Cast to maintain compatibility
       }
     });
 
-    // Create dynamic connecting lines
-    const connectionLines: THREE.Line[] = [];
+    // Create dynamic connection system
+    const connections: THREE.Line[] = [];
     const createConnections = () => {
-      // Clear existing lines
-      connectionLines.forEach(line => tesseractGroup.remove(line));
-      connectionLines.length = 0;
+      // Clear existing connections
+      connections.forEach(line => techConstellation.remove(line));
+      connections.length = 0;
 
-      // Create lines between nearby sprites
+      // Create selective connections for better visual flow
       for (let i = 0; i < sprites.length; i++) {
-        for (let j = i + 1; j < sprites.length; j++) {
-          const distance = sprites[i].position.distanceTo(sprites[j].position);
-          if (distance < 7) {
+        const connectionsPerSprite = Math.floor(Math.random() * 3) + 1;
+        const availableTargets = sprites.filter((_, index) => index !== i);
+        
+        for (let j = 0; j < connectionsPerSprite; j++) {
+          const targetIndex = Math.floor(Math.random() * availableTargets.length);
+          const target = availableTargets[targetIndex];
+          
+          if (target && sprites[i].position.distanceTo(target.position) < 8) {
             const material = new THREE.LineBasicMaterial({
-              color: Math.random() > 0.5 ? 0x00BFFF : 0x8A2BE2,
+              color: new THREE.Color().lerpColors(
+                new THREE.Color(sprites[i].userData.color),
+                new THREE.Color(target.userData.color),
+                0.5
+              ),
               transparent: true,
-              opacity: 0.4 + Math.random() * 0.3,
+              opacity: 0.15,
+              linewidth: 2
             });
             
             const geometry = new THREE.BufferGeometry().setFromPoints([
               sprites[i].position.clone(),
-              sprites[j].position.clone()
+              target.position.clone()
             ]);
             const line = new THREE.Line(geometry, material);
-            connectionLines.push(line);
-            tesseractGroup.add(line);
+            line.userData = { sprite1: sprites[i], sprite2: target };
+            connections.push(line);
+            techConstellation.add(line);
           }
         }
       }
@@ -140,77 +201,155 @@ export default function Hypercube() {
 
     createConnections();
 
-    // Minimal ambient lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+    // Enhanced lighting setup
+    const ambientLight = new THREE.AmbientLight(0x404040, 0.4);
     scene.add(ambientLight);
     
-    // Dynamic point lights
-    const pointLight1 = new THREE.PointLight(0x00BFFF, 2, 25);
-    pointLight1.position.set(8, 8, 8);
-    scene.add(pointLight1);
-    
-    const pointLight2 = new THREE.PointLight(0x8A2BE2, 2, 25);
-    pointLight2.position.set(-8, -8, 8);
-    scene.add(pointLight2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight.position.set(10, 10, 5);
+    directionalLight.castShadow = true;
+    scene.add(directionalLight);
 
-    // Enhanced floating animation
-    const animateFloat = () => {
-      sprites.forEach((sprite) => {
-        const time = Date.now() * 0.001;
-        const floatY = Math.sin(time + sprite.userData.floatOffset) * 0.4;
-        const floatX = Math.cos(time * 0.8 + sprite.userData.floatOffset) * 0.3;
-        const floatZ = Math.sin(time * 0.6 + sprite.userData.floatOffset) * 0.3;
-        
-        sprite.position.copy(sprite.userData.initialPosition);
-        sprite.position.y += floatY;
-        sprite.position.x += floatX;
-        sprite.position.z += floatZ;
-      });
-      
-      // Update connection lines
-      connectionLines.forEach((line, index) => {
-        const positions = line.geometry.attributes.position.array as Float32Array;
-        if (sprites[Math.floor(index / 2)] && sprites[Math.floor(index / 2) + 1]) {
-          const sprite1 = sprites[Math.floor(index * 0.3) % sprites.length];
-          const sprite2 = sprites[Math.floor(index * 0.7) % sprites.length];
-          
-          if (sprite1 && sprite2) {
-            positions[0] = sprite1.position.x;
-            positions[1] = sprite1.position.y;
-            positions[2] = sprite1.position.z;
-            positions[3] = sprite2.position.x;
-            positions[4] = sprite2.position.y;
-            positions[5] = sprite2.position.z;
-            line.geometry.attributes.position.needsUpdate = true;
-          }
-        }
-      });
+    // Dynamic colored lights
+    const createDynamicLight = (color: number, position: THREE.Vector3) => {
+      const light = new THREE.PointLight(color, 1, 20);
+      light.position.copy(position);
+      scene.add(light);
+      return light;
     };
 
-    // Continuous rotation with floating
-    gsap.to(tesseractGroup.rotation, {
-      x: Math.PI * 2,
-      y: Math.PI * 4,
-      z: Math.PI * 2,
-      duration: 50,
-      repeat: -1,
-      ease: "none"
-    });
+    const dynamicLights = [
+      createDynamicLight(0x00BFFF, new THREE.Vector3(8, 4, 6)),
+      createDynamicLight(0x8A2BE2, new THREE.Vector3(-6, -4, 8)),
+      createDynamicLight(0xFF6B35, new THREE.Vector3(4, 8, -6))
+    ];
 
-    // Animation loop
-    function animate() {
+    // Animation variables
+    let time = 0;
+    let highlightIndex = 0;
+    let lastHighlightTime = 0;
+    const highlightDuration = 3000; // 3 seconds per highlight
+
+    // Smooth animation function
+    const animate = () => {
       const animationFrame = requestAnimationFrame(animate);
       sceneRef.current.animationFrame = animationFrame;
       
-      animateFloat();
-      
-      // Gentle additional rotation
-      tesseractGroup.rotation.x += 0.001;
-      tesseractGroup.rotation.y += 0.002;
-      tesseractGroup.rotation.z += 0.0008;
-      
-      composer.render();
-    }
+      time += 0.016; // ~60fps
+      const currentTime = Date.now();
+
+      // Handle highlighting system
+      if (currentTime - lastHighlightTime > highlightDuration) {
+        // Reset previous highlight
+        if (sprites[highlightIndex]) {
+          sprites[highlightIndex].userData.isHighlighted = false;
+        }
+        
+        highlightIndex = (highlightIndex + 1) % sprites.length;
+        lastHighlightTime = currentTime;
+        
+        // Set new highlight
+        if (sprites[highlightIndex]) {
+          sprites[highlightIndex].userData.isHighlighted = true;
+        }
+      }
+
+      // Animate sprites with smooth floating and highlighting
+      sprites.forEach((sprite, index) => {
+        const userData = sprite.userData;
+        
+        // Base floating animation
+        const floatX = Math.sin(time * 0.5 + index * 0.8) * 0.3;
+        const floatY = Math.cos(time * 0.3 + index * 1.2) * 0.4;
+        const floatZ = Math.sin(time * 0.7 + index * 0.6) * 0.3;
+        
+        userData.targetPosition.copy(userData.initialPosition);
+        userData.targetPosition.add(new THREE.Vector3(floatX, floatY, floatZ));
+        
+        // Highlighting effect
+        if (userData.isHighlighted) {
+          // Move to front and enlarge
+          const highlightOffset = new THREE.Vector3(0, 0, 2);
+          userData.targetPosition.add(highlightOffset);
+          userData.targetScale = 2.5;
+          
+          // Update glow intensity
+          if (glowSprites[index]) {
+            const glowObject = glowSprites[index];
+            if (glowObject instanceof THREE.Mesh) {
+              (glowObject.material as THREE.MeshBasicMaterial).opacity = 0.6;
+            } else {
+              (glowObject.material as THREE.SpriteMaterial).opacity = 0.6;
+            }
+          }
+        } else {
+          userData.targetScale = userData.originalScale;
+          
+          // Reset glow intensity
+          if (glowSprites[index]) {
+            const glowObject = glowSprites[index];
+            if (glowObject instanceof THREE.Mesh) {
+              (glowObject.material as THREE.MeshBasicMaterial).opacity = 0.2;
+            } else {
+              (glowObject.material as THREE.SpriteMaterial).opacity = 0.2;
+            }
+          }
+        }
+        
+        // Smooth interpolation
+        sprite.position.lerp(userData.targetPosition, 0.05);
+        sprite.scale.lerp(new THREE.Vector3(userData.targetScale, userData.targetScale, userData.targetScale), 0.08);
+        
+        // Smooth rotation
+        sprite.rotation.z += userData.rotationSpeed;
+        
+        // Update glow sprite position and scale
+        if (glowSprites[index]) {
+          glowSprites[index].position.copy(sprite.position);
+          glowSprites[index].scale.copy(sprite.scale).multiplyScalar(1.5);
+        }
+      });
+
+      // Update connections
+      connections.forEach(line => {
+        const { sprite1, sprite2 } = line.userData;
+        const positions = line.geometry.attributes.position.array as Float32Array;
+        
+        positions[0] = sprite1.position.x;
+        positions[1] = sprite1.position.y;
+        positions[2] = sprite1.position.z;
+        positions[3] = sprite2.position.x;
+        positions[4] = sprite2.position.y;
+        positions[5] = sprite2.position.z;
+        
+        line.geometry.attributes.position.needsUpdate = true;
+        
+        // Animate connection opacity based on distance
+        const distance = sprite1.position.distanceTo(sprite2.position);
+        (line.material as THREE.LineBasicMaterial).opacity = Math.max(0.05, 0.4 - distance * 0.05);
+      });
+
+      // Gentle constellation rotation
+      techConstellation.rotation.y += 0.003;
+      techConstellation.rotation.x += 0.001;
+      techConstellation.rotation.z += 0.002;
+
+      // Animate dynamic lights
+      dynamicLights.forEach((light, index) => {
+        const lightTime = time + index * 2;
+        light.position.x = Math.sin(lightTime * 0.5) * 8;
+        light.position.y = Math.cos(lightTime * 0.3) * 6;
+        light.position.z = Math.sin(lightTime * 0.7) * 10;
+        light.intensity = 0.8 + Math.sin(lightTime * 2) * 0.3;
+      });
+
+      // Camera subtle movement
+      camera.position.x = 3 + Math.sin(time * 0.1) * 0.5;
+      camera.position.y = 2 + Math.cos(time * 0.15) * 0.3;
+      camera.lookAt(0, 0, 0);
+
+      renderer.render(scene, camera);
+    };
 
     // Handle resize
     const handleResize = () => {
@@ -218,13 +357,33 @@ export default function Hypercube() {
       camera.aspect = container.clientWidth / container.clientHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(container.clientWidth, container.clientHeight);
-      composer.setSize(container.clientWidth, container.clientHeight);
+    };
+
+    // Mouse interaction
+    const handleMouseMove = (event: MouseEvent) => {
+      const rect = container.getBoundingClientRect();
+      const mouseX = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+      const mouseY = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      
+      // Subtle camera follow
+      camera.position.x = 3 + mouseX * 0.5;
+      camera.position.y = 2 + mouseY * 0.3;
     };
 
     window.addEventListener('resize', handleResize);
+    container.addEventListener('mousemove', handleMouseMove, { passive: true });
 
-    // Store references for cleanup
-    sceneRef.current = { scene, renderer, camera, composer, tesseractGroup };
+    // Store references
+    sceneRef.current = { 
+      scene, 
+      renderer, 
+      camera, 
+      techConstellation, 
+      sprites, 
+      connections,
+      highlightIndex,
+      lastHighlightTime
+    };
 
     // Start animation
     animate();
@@ -232,12 +391,33 @@ export default function Hypercube() {
     // Cleanup
     return () => {
       window.removeEventListener('resize', handleResize);
+      container.removeEventListener('mousemove', handleMouseMove);
+      
       if (sceneRef.current.animationFrame) {
         cancelAnimationFrame(sceneRef.current.animationFrame);
       }
+      
+      // Dispose of materials and geometries
+      sprites.forEach(sprite => {
+        (sprite.material as THREE.SpriteMaterial).dispose();
+        const material = sprite.material as THREE.SpriteMaterial;
+        if (material.map) material.map.dispose();
+      });
+      
+      glowSprites.forEach(glowSprite => {
+        (glowSprite.material as THREE.SpriteMaterial).dispose();
+      });
+      
+      connections.forEach(line => {
+        line.geometry.dispose();
+        (line.material as THREE.LineBasicMaterial).dispose();
+      });
+      
+      dynamicLights.forEach(light => scene.remove(light));
+      
       if (renderer) {
         renderer.dispose();
-        if (container && renderer.domElement) {
+        if (container && renderer.domElement && container.contains(renderer.domElement)) {
           container.removeChild(renderer.domElement);
         }
       }
@@ -247,10 +427,11 @@ export default function Hypercube() {
   return (
     <div 
       ref={containerRef} 
-      className="w-full h-full"
+      className="w-full h-full absolute inset-0"
       style={{ 
         background: 'transparent',
-        pointerEvents: 'none'
+        pointerEvents: 'auto',
+        zIndex: 1
       }}
     />
   );
