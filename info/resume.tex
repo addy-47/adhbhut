@@ -1,0 +1,286 @@
+%-------------------------
+% Resume in Latex - Adhbhut Gupta
+% Final 2-Page, ATS-Optimized, Clean Layout
+%------------------------
+\documentclass[a4paper,11pt]{article}
+\usepackage{latexsym}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{ragged2e}
+\usepackage[empty]{fullpage}
+\usepackage{tabularx}
+\usepackage{titlesec}
+\usepackage{geometry}
+\usepackage{marvosym}
+\usepackage{verbatim}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{fontawesome5}
+\usepackage{graphicx}
+\usepackage{cfr-lm}
+\usepackage[T1]{fontenc}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+
+\setlength{\footskip}{4.08003pt}
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\geometry{left=1.4cm, top=1.2cm, right=1.4cm, bottom=1.2cm}
+
+\tcbset{
+  frame code={},
+  center title,
+  left=0pt,right=0pt,top=0pt,bottom=0pt,
+  colback=gray!20,colframe=white,
+  width=\dimexpr\textwidth\relax,
+  enlarge left by=-2mm,boxsep=4pt,arc=0pt,outer arc=0pt,
+}
+
+\urlstyle{same}
+\raggedright
+
+% Section formatting
+\titleformat{\section}{
+  \vspace{-4pt}\scshape\raggedright\large
+}{}{0em}{}[\color{black}\titlerule \vspace{-7pt}]
+
+% Custom commands
+\newcommand{\resumeItem}[2]{
+  \item{
+    \textbf{#1}{\hspace{0.5mm}#2 \vspace{-0.5mm}}
+  }
+}
+\newcommand{\resumePOR}[3]{
+  \vspace{0.5mm}\item
+  \begin{tabular*}{0.97\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1}\hspace{0.3mm}#2 & \textit{\small{#3}}
+  \end{tabular*}
+  \vspace{-2mm}
+}
+\newcommand{\resumeSubheading}[4]{
+  \vspace{0.5mm}\item
+  \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & \textit{\footnotesize{#4}} \\
+    \textit{\footnotesize{#3}} & \footnotesize{#2}\\
+  \end{tabular*}
+  \vspace{-2.4mm}
+}
+\newcommand{\resumeProject}[4]{
+  \vspace{0.5mm}\item
+  \begin{tabular*}{0.98\textwidth}[t]{l@{\extracolsep{\fill}}r}
+    \textbf{#1} & \textit{\footnotesize{#3}} \\
+    \footnotesize{\textit{#2}} & \footnotesize{#4}
+  \end{tabular*}
+  \vspace{-2.4mm}
+}
+
+\renewcommand{\labelitemi}{$\vcenter{\hbox{\tiny$\bullet$}}$}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=*,labelsep=0mm]}
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=3ex, rightmargin=2ex, noitemsep,labelsep=1.2mm,itemsep=0mm]\small}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}\vspace{1mm}}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-2mm}}
+
+%-------------------------------------------
+% PERSONAL INFO
+\newcommand{\name}{Adhbhut Gupta}
+\newcommand{\phone}{+91 9999015375}
+\newcommand{\emaila}{adhbutg@gmail.com}
+\newcommand{\github}{github.com/addy-47}
+\newcommand{\linkedin}{linkedin.com/in/adhbhutgupta}
+
+\begin{document}
+\fontfamily{cmr}\selectfont
+
+%----------HEADER: LEFT PHOTO + RIGHT CONTACT (ONE PER LINE)-----------------
+\begin{center}
+  \begin{minipage}{0.34\textwidth}
+    \centering
+    \begin{tikzpicture}
+      \clip (0,0) circle (1.9cm);
+      \node at (0,0) {\includegraphics[width=3.8cm]{a}};
+    \end{tikzpicture}
+  \end{minipage}
+  \hfill
+  \begin{minipage}{0.62\textwidth}
+    \begin{flushright}
+      \textbf{\LARGE \name} \\[4pt]
+      \small
+      \faPhone \hspace{3mm} \phone \\[2pt]
+      \faEnvelope \hspace{3mm} \href{mailto:\emaila}{\emaila} \\[2pt]
+      \faGithub \hspace{3mm} \href{https://\github}{\github} \\[2pt]
+      \faLinkedin \hspace{3mm} \href{https://\linkedin}{\linkedin}
+    \end{flushright}
+  \end{minipage}
+\end{center}
+\vspace{-2mm}
+
+%-----------SUMMARY-----------------
+\section{Summary}
+\begin{justify}
+\small
+Cloud \& DevOps Engineer skilled in automating multi-service CI/CD pipelines and deploying scalable workloads on GCP and Kubernetes. Built internal tools to streamline Docker builds, improve caching, and reduce deployment time. Known for logical problem-solving, practical design, and a drive to simplify complex workflows.
+\end{justify}
+\vspace{-4mm}
+
+%-----------EXPERIENCE-----------------
+\section{Experience}
+\resumeSubHeadingListStart
+
+  \resumeSubheading
+    {HYPR4 Cloud Tech}{Delhi, India}
+    {Associate Cloud Engineer}{Sep 2025 -- Present}
+    \resumeItemListStart
+      \item Designed and deployed scalable microservices architecture on GKE with internal networking and service mesh integration.
+      \item Automated CI/CD pipelines using Cloud Build and GitHub Actions for seamless build, test, and production deployments.
+      \item Managed complete infrastructure lifecycle — from local development to production — ensuring reliability and cost efficiency.
+      \item Optimized infrastructure costs by implementing smart resource sizing, preemptible VMs, and automated scale-down policies.
+      \item Built and maintained reusable deployment templates for multi-service workflows and environment provisioning.
+
+Contributed to backend codebases, debugging production issues, and improving performance of deployed apps.
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {HYPR4 Cloud Tech}{Delhi, India}
+    {Pre-Sales Intern}{Jun 2025 -- Aug 2025}
+    \resumeItemListStart
+      \item Deployed GCP environments using pre-built Terraform modules 
+      \item Handled manual deployments using yaml files and docker 
+      \item Setup VMs and firewalls for new services 
+      \item Delivered technical demos to clients; learned cluster setup, VMs, and networking.
+    \resumeItemListEnd
+
+  \resumeSubheading
+    {Hritik Textiles}{Delhi, India}
+    {Operations and Digital Strategy Manager}{Aug 2021 -- May 2025}
+    \resumeItemListStart
+      \item Led team of 3; increased sales 30\% via WhatsApp, Meesho, YouTube, Instagram.
+      \item Grew client base 20\% through targeted sales and retention initiatives.
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+\vspace{-4mm}
+
+%-----------TECHNICAL SKILLS-----------------
+\section{Technical Skills}
+\begin{itemize}[leftmargin=0.1in, label={}]
+  \small{\item{
+   \textbf{Languages}{: Go, Python, C++, TypeScript, SQL, Bash} \\
+   \textbf{Cloud \& DevOps}{: GCP, GKE, Cloud Build, Cloudflare, Docker, Kubernetes, Terraform, CI/CD, GitHub Actions} \\
+   \textbf{Frameworks}{: Flask, Fiber, React, Vue.js, Node.js, Tailwind CSS} \\
+   \textbf{Streaming \& Media}{: MediaMTX, WebRTC, HLS, FFmpeg, NGINX RTMP, Owncast, Adaptive Bitrate} \\
+   \textbf{Databases}{: PostgreSQL, MongoDB, Redis, Cloud SQL} \\
+   \textbf{Tools \& Monitoring}{: Grafana, Prometheus, inotify, zstd, BoltDB} \\
+  }}
+\end{itemize}
+\vspace{-8pt}
+
+%-----------PROJECTS (PORTFOLIO FIRST)-----------------
+\section{Projects}
+\resumeSubHeadingListStart
+
+  \resumeProject
+    {Portfolio Website}
+    {Personal DevOps showcase}
+    {\href{https://addy-47.github.io/adhbhut/}{addy-47.github.io/adhbhut}}
+    {}
+    \resumeItemListStart
+      \item Responsive site with React, TypeScript, Vite, Tailwind, and shadcn/ui.
+      \item Deployed via GitHub Pages; optimized for speed and accessibility.
+    \resumeItemListEnd
+
+  \resumeProject
+    {LazyCreator}
+    {AI-powered YouTube Shorts automation platform}
+    {\href{https://lazycreator.in}{lazycreator.in}}
+    {}
+    \resumeItemListStart
+      \item Built full-stack app (Flask, React) to generate and upload Shorts via YouTube API.
+      \item Generates scripts, backgrounds , subtitles ,thumbnail and uploads directly to user channel reducing the content generation time to just 5mins.
+      \item Used FFmpeg, GCP Cloud Run, MongoDB; real-time updates via WebSocket.
+    \resumeItemListEnd
+
+  \resumeProject
+    {Streamlet}
+    {Scalable P2P live education streaming}
+    {\href{https://github.com/addy-47/streamlet}{github.com/addy-47/streamlet}}
+    {}
+    \resumeItemListStart
+      \item A POC designed to support upto 300K concurrent users via HLS + WebRTC P2P mesh; 50--95\% bandwidth saved .
+      \item Fully functional features like private chat, public chat , stage invite , broadcast 
+      \item Go Fiber backend, React frontend, MediaMTX, PostgreSQL,Coturn,PeerJS, Redis; fully Dockerized and deployed on VM
+    \resumeItemListEnd
+
+  \resumeProject
+    {Dockerz v2}
+    {Smart multi-service Docker builder CLI}
+    {\href{https://github.com/addy-47/scripts/tree/dockerz}{github.com/addy-47/scripts/dockerz}}
+    {}
+    \resumeItemListStart
+      \item Go CLI with Git + SHA256 change detection; parallel builds cut CI/CD time by 70\%+.
+      \item Multi-level caching, GAR integration, and output for downstream pipelines.
+    \resumeItemListEnd
+
+  \resumeProject
+    {u-cli}
+    {Universal Linux undo command}
+    {\href{https://github.com/addy-47/scripts/tree/u-cli}{github.com/addy-47/scripts/u-cli}}
+    {}
+    \resumeItemListStart
+      \item Single Go binary undoes last \texttt{mv}, \texttt{rm}, \texttt{cp} via shell hooks.
+      \item inotify + zstd backups; works in bash/zsh/fish with one-liner install.
+    \resumeItemListEnd
+
+  \resumeProject
+    {Go Blog App on GKE}
+    {Microservices CI/CD pipeline}
+    {\href{https://github.com/addy-47/go-blog-app/tree/ci-cd}{github.com/addy-47/go-blog-app/ci-cd}}
+    {}
+    \resumeItemListStart
+      \item Deployed Go services to GKE via GitHub Actions; used GAR and Workload Identity.
+      \item Incremental builds, Cloud SQL, auto-rollouts with zero downtime.
+    \resumeItemListEnd
+
+\resumeSubHeadingListEnd
+\vspace{-4mm}
+
+%-----------EDUCATION-----------------
+\section{Education}
+\resumeSubHeadingListStart
+  \resumeSubheading
+    {Maharaja Agrasen Institute of Technology, GGSIPU}{Delhi, India}
+    {B.Tech in Information Technology}{2019 -- 2023}
+    \resumeItemListStart
+      \item CGPA: 7.76
+    \resumeItemListEnd
+  \resumeSubheading
+    {Happy School}{Delhi, India}
+    {CBSE Senior Secondary}{2019}
+    \resumeItemListStart
+      \item 12th: 7.8 CGPA \quad 10th: 8.4 CGPA
+    \resumeItemListEnd
+\resumeSubHeadingListEnd
+\vspace{-4mm}
+
+%-----------CERTIFICATIONS-----------------
+\section{Certifications}
+\resumeSubHeadingListStart
+  \resumePOR
+    {Google Cloud Associate Cloud Engineer}
+    {Google Cloud}
+    {2024 \hspace{1em} \raisebox{-0.5mm}{\includegraphics[width=0.09\textwidth]{badge.png}}}
+\resumeSubHeadingListEnd
+\vspace{-4mm}
+
+%-----------INTERESTS-----------------
+\section{Interests}
+\resumeItemListStart
+  \item Automating repetitive tasks with scripts and tools
+  \item Building open-source solutions for real-world problems
+  \item Strategy games: Chess (99.93 percentile on Chess.com), AOE2
+\resumeItemListEnd
+
+%-------------------------------------------
+\end{document}
