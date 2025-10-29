@@ -106,7 +106,7 @@ export default function Hero() {
                 transition={{ duration: 0.8, delay: 0.7 }}
                 className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4"
               >
-                <a href="/info/resume.pdf" download>
+                <a href="/resume.pdf" download>
                   <Button
                     size="lg"
                     className="bg-gradient-primary text-white glow-border px-8 py-4 text-lg hover:scale-105 transition-all duration-300"
