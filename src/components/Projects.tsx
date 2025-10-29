@@ -9,108 +9,157 @@ import ProjectDialog from './ProjectDialog';
 
 const projects = [
   {
-    title: "Go Blog Application",
-    description: "A full-stack blog application built with Go, featuring Docker containerization and Kubernetes deployment with CI/CD pipeline.",
-    fullDescription: "A comprehensive blog application built with Go that demonstrates modern web development practices. Features include user authentication, CRUD operations, real-time comments, and image upload capabilities. The application is fully containerized and deployed using Kubernetes with automated CI/CD pipelines on Google Cloud Platform.",
+    title: "LazyCreator",
+    description: "AI-powered YouTube Shorts automation platform.",
+    fullDescription: "Built full-stack app (Flask, React) to generate and upload Shorts via YouTube API. Generates scripts, backgrounds , subtitles ,thumbnail and uploads directly to user channel reducing the content generation time to just 5mins. Used FFmpeg, GCP Cloud Run, MongoDB; real-time updates via WebSocket.",
     challenges: [
-      "Implementing secure authentication and authorization",
-      "Optimizing database queries for high performance",
-      "Setting up automated testing and deployment pipelines on GCP",
-      "Managing container security and resource limits"
+      "Automated video generation for YouTube Shorts",
+      "AI-powered voiceover generation",
+      "Direct YouTube upload integration"
     ],
     icon: <Code className="h-6 w-6" />,
-    technologies: ["Go", "Docker", "Kubernetes", "GitHub Actions", "PostgreSQL"],
-    github: "https://github.com/addy-47/go-blog-app",
+    technologies: ["Flask", "React", "FFmpeg", "GCP Cloud Run", "MongoDB", "WebSocket"],
+    github: "https://lazycreator.in",
     highlights: [
-      "RESTful API with Gin framework",
-      "Containerized with multi-stage Docker builds", 
-      "Deployed on GCP GKE with Helm charts",
-      "Automated CI/CD with GitHub Actions"
+      "AI-powered video generation",
+      "Customizable video styles",
+      "Secure authentication with Firebase",
+      "Responsive design"
     ],
     techTree: [
-      { category: "Backend", items: ["Go", "Gin Framework", "REST API"] },
-      { category: "Database", items: ["PostgreSQL", "GORM"] },
-      { category: "Containerization", items: ["Docker", "Multi-stage builds"] },
-      { category: "Deployment", items: ["Kubernetes", "Helm", "GitHub Actions"] }
-    ]
+      { category: "Backend", items: ["Flask", "MongoDB"] },
+      { category: "Frontend", items: ["React", "Vite"] },
+      { category: "Cloud", items: ["GCP Cloud Run", "Firebase"] },
+      { category: "Media", items: ["FFmpeg", "WebSocket"] }
+    ],
+    image: "/lazycreator.png"
   },
   {
-    title: "DevOps Task Management",
-    description: "A comprehensive task management system with microservices architecture, focusing on DevOps best practices and automation on GCP.",
-    fullDescription: "A scalable task management platform designed with microservices architecture to demonstrate DevOps best practices. Features include real-time collaboration, automated workflows, resource allocation, and comprehensive monitoring across distributed services running on Google Cloud Platform.",
+    title: "Streamlet",
+    description: "Scalable P2P live education streaming.",
+    fullDescription: "A POC designed to support upto 300K concurrent users via HLS + WebRTC P2P mesh; 50--95% bandwidth saved . Fully functional features like private chat, public chat , stage invite , broadcast. Go Fiber backend, React frontend, MediaMTX, PostgreSQL,Coturn,PeerJS, Redis; fully Dockerized and deployed on VM",
     challenges: [
-      "Designing effective inter-service communication patterns",
-      "Implementing distributed tracing and monitoring on GCP",
-      "Managing data consistency across microservices",
-      "Setting up automated scaling and load balancing on GKE"
+      "Supporting 300K concurrent users",
+      "Reducing bandwidth costs by 50-95%",
+      "Implementing a hybrid HLS and WebRTC P2P mesh"
     ],
     icon: <Cloud className="h-6 w-6" />,
-    technologies: ["Go", "Terraform", "GCP", "Docker", "Jenkins"],
-    github: "https://github.com/addy-47/task-devops-app",
+    technologies: ["Go", "Fiber", "React", "WebRTC", "HLS", "MediaMTX", "PostgreSQL", "Redis", "Docker"],
+    github: "https://github.com/addy-47/streamlet",
     highlights: [
-      "Microservices architecture",
-      "Infrastructure as Code with Terraform",
-      "Auto-scaling on GCP GKE",
-      "Monitoring with Prometheus & Grafana"
+      "Scalable to 300K concurrent users",
+      "50-95% bandwidth savings",
+      "P2P mesh network",
+      "Real-time chat and interaction"
     ],
     techTree: [
-      { category: "Microservices", items: ["Go", "gRPC", "Service Discovery"] },
-      { category: "Infrastructure", items: ["Terraform", "GCP GKE"] },
-      { category: "CI/CD", items: ["Jenkins", "Docker"] },
-      { category: "Monitoring", items: ["Prometheus", "Grafana", "ELK Stack"] }
-    ]
+      { category: "Backend", items: ["Go", "Fiber", "PostgreSQL", "Redis"] },
+      { category: "Frontend", items: ["React", "WebRTC", "HLS"] },
+      { category: "Streaming", items: ["MediaMTX", "PeerJS", "Coturn"] },
+      { category: "Deployment", items: ["Docker", "Nginx"] }
+    ],
+    image: "/streamlet.png"
   },
   {
-    title: "Kubernetes Deployment Automation",
-    description: "Automated deployment pipeline for Go applications on Kubernetes with advanced monitoring and logging capabilities on GCP.",
-    fullDescription: "An advanced Kubernetes deployment automation system that streamlines the deployment process for Go applications on Google Cloud Platform. Features GitOps workflows, custom operators, advanced resource management, and comprehensive observability for production-ready deployments.",
+    title: "Dockerz v2",
+    description: "Smart multi-service Docker builder CLI.",
+    fullDescription: "Go CLI with Git + SHA256 change detection; parallel builds cut CI/CD time by 70%+. Multi-level caching, GAR integration, and output for downstream pipelines.",
     challenges: [
-      "Building custom Kubernetes operators for application lifecycle management",
-      "Implementing GitOps workflows with proper security controls on GCP",
-      "Setting up comprehensive monitoring and alerting",
-      "Managing resource quotas and cluster autoscaling on GKE"
+      "Cutting CI/CD time by 70%+",
+      "Implementing Git + SHA256 change detection",
+      "Supporting multi-level caching"
     ],
     icon: <Server className="h-6 w-6" />,
-    technologies: ["Kubernetes", "Go", "Prometheus", "Grafana", "ArgoCD"],
-    github: "https://github.com/addy-47/go-k8s-deploy",
+    technologies: ["Go", "Docker", "Google Artifact Registry"],
+    github: "https://github.com/addy-47/scripts/tree/dockerz",
     highlights: [
-      "GitOps workflow with ArgoCD",
-      "Custom Kubernetes operators",
-      "Advanced resource management on GKE",
-      "Comprehensive observability stack"
+      "Parallel builds",
+      "Smart change detection",
+      "Multi-level caching",
+      "Google Artifact Registry integration"
     ],
     techTree: [
-      { category: "Orchestration", items: ["Kubernetes", "Custom Operators"] },
-      { category: "GitOps", items: ["ArgoCD", "Git Workflows"] },
-      { category: "Monitoring", items: ["Prometheus", "Grafana"] },
-      { category: "Applications", items: ["Go", "Helm Charts"] }
-    ]
+      { category: "CLI", items: ["Go", "Cobra"] },
+      { category: "CI/CD", items: ["Docker", "GitHub Actions"] },
+      { category: "Cloud", items: ["Google Artifact Registry"] }
+    ],
+    image: "/dockerz.png"
   },
   {
-    title: "Lazy Creator Scripts",
-    description: "A collection of automation scripts and tools for streamlining development workflows and DevOps processes on GCP.",
-    fullDescription: "A comprehensive collection of automation scripts and tools designed to streamline development workflows and DevOps processes on Google Cloud Platform. Includes environment setup automation, infrastructure provisioning tools, configuration management utilities, and development workflow optimizations.",
+    title: "u-cli",
+    description: "Universal Linux undo command.",
+    fullDescription: "Single Go binary undoes last mv, rm, cp via shell hooks. inotify + zstd backups; works in bash/zsh/fish with one-liner install.",
     challenges: [
-      "Creating portable scripts that work across different GCP environments",
-      "Implementing proper error handling and logging",
-      "Building modular and reusable automation components for GCP",
-      "Ensuring security best practices in automation scripts"
+      "Creating a universal undo command for Linux",
+      "Using inotify and zstd for backups",
+      "Supporting bash, zsh, and fish"
     ],
     icon: <Database className="h-6 w-6" />,
-    technologies: ["Shell", "Python", "Ansible", "Terraform", "Docker"],
-    github: "https://github.com/addy-47/lazy-creator",
+    technologies: ["Go", "inotify", "zstd", "BoltDB"],
+    github: "https://github.com/addy-47/scripts/tree/u-cli",
     highlights: [
-      "GCP environment setup automation",
-      "Infrastructure provisioning scripts",
-      "Configuration management tools",
-      "Development workflow optimization"
+      "Undo for mv, rm, cp",
+      "inotify + zstd backups",
+      "Works in bash, zsh, fish",
+      "Single Go binary"
     ],
     techTree: [
-      { category: "Scripting", items: ["Shell Scripts", "Python"] },
-      { category: "Infrastructure", items: ["Terraform", "Ansible"] },
-      { category: "Containerization", items: ["Docker", "Docker Compose"] },
-      { category: "Automation", items: ["CI/CD Scripts", "Deployment Tools"] }
-    ]
+      { category: "CLI", items: ["Go", "Cobra"] },
+      { category: "System", items: ["inotify", "zstd"] },
+      { category: "Database", items: ["BoltDB"] }
+    ],
+    image: "/u.png"
+  },
+  {
+    title: "Go Blog App on GKE",
+    description: "Microservices CI/CD pipeline.",
+    fullDescription: "Deployed Go services to GKE via GitHub Actions; used GAR and Workload Identity. Incremental builds, Cloud SQL, auto-rollouts with zero downtime.",
+    challenges: [
+      "Deploying Go services to GKE via GitHub Actions",
+      "Using GAR and Workload Identity",
+      "Incremental builds, Cloud SQL, auto-rollouts with zero downtime"
+    ],
+    icon: <Code className="h-6 w-6" />,
+    technologies: ["Go", "GKE", "GitHub Actions", "Google Artifact Registry", "Cloud SQL"],
+    github: "https://github.com/addy-47/go-blog-app/tree/ci-cd",
+    highlights: [
+      "CI/CD pipeline for Go microservices",
+      "Deployment to GKE using GitHub Actions",
+      "Integration with Google Artifact Registry and Workload Identity",
+      "Zero-downtime deployments"
+    ],
+    techTree: [
+      { category: "Backend", items: ["Go"] },
+      { category: "Cloud", items: ["GKE", "Cloud SQL", "Google Artifact Registry"] },
+      { category: "CI/CD", items: ["GitHub Actions"] }
+    ],
+    image: "/go-blog-app-github-actions.png"
+  },
+  {
+    title: "Go Blog App with Helm",
+    description: "Kubernetes components with Helm, CRDs, and Istio on Minikube.",
+    fullDescription: "A Go-based blogging platform demonstrating Kubernetes components with Helm, CRDs, and Istio on Minikube.",
+    challenges: [
+      "Packaging Kubernetes resources with Helm",
+      "Extending Kubernetes API with CRDs",
+      "Implementing a service mesh with Istio for mTLS and traffic management"
+    ],
+    icon: <Code className="h-6 w-6" />,
+    technologies: ["Go", "Kubernetes", "Helm", "Istio", "Minikube"],
+    github: "https://github.com/addy-47/go-blog-app/tree/helm",
+    highlights: [
+      "Simplified deployment with Helm",
+      "Custom Resource Definitions (CRDs) for blog posts",
+      "Secure service mesh with Istio",
+      "mTLS between services"
+    ],
+    techTree: [
+      { category: "Backend", items: ["Go"] },
+      { category: "Orchestration", items: ["Kubernetes", "Helm", "Minikube"] },
+      { category: "Service Mesh", items: ["Istio"] },
+      { category: "API", items: ["CRDs"] }
+    ],
+    image: "/go-blog-app-helm.png"
   }
 ];
 

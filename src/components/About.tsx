@@ -1,7 +1,9 @@
+
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import { 
   Cloud, 
   Container, 
@@ -10,179 +12,171 @@ import {
   Settings, 
   Database,
   Shield,
-  Zap
+  Zap,
+  Download,
+  Code
 } from 'lucide-react';
 
 const skills = [
   {
-    category: "Cloud Platforms",
+    category: "Languages",
+    icon: <Code className="h-6 w-6" />,
+    items: ["Go", "Python", "C++", "TypeScript", "SQL", "Bash"],
+    description: "Proficient in multiple programming languages.",
+    proficiency: 90
+  },
+  {
+    category: "Cloud & DevOps",
     icon: <Cloud className="h-6 w-6" />,
-    items: ["Google Cloud Platform", "GCP GKE", "Multi-cloud Architecture"],
+    items: ["GCP", "GKE", "Cloud Build", "Cloudflare", "Docker", "Kubernetes", "Terraform", "CI/CD", "GitHub Actions"],
     description: "Expertise in GCP with deep knowledge of cloud-native solutions",
     proficiency: 80
   },
   {
-    category: "Container Orchestration", 
-    icon: <Container className="h-6 w-6" />,
-    items: ["Kubernetes", "Docker", "Helm", "Container Security"],
-    description: "Advanced Kubernetes administration and container orchestration",
-    proficiency: 80
-  },
-  {
-    category: "Infrastructure as Code",
+    category: "Frameworks",
     icon: <Settings className="h-6 w-6" />,
-    items: ["Terraform", "Ansible", "CloudFormation", "Pulumi"],
-    description: "Automated infrastructure provisioning and configuration management",
+    items: ["Flask", "Fiber", "React", "Vue.js", "Node.js", "Tailwind CSS"],
+    description: "Experience with various backend and frontend frameworks.",
     proficiency: 75
   },
   {
-    category: "CI/CD & GitOps",
-    icon: <GitBranch className="h-6 w-6" />,
-    items: ["Jenkins", "GitHub Actions", "ArgoCD", "GitLab CI"],
-    description: "Automated deployment pipelines and GitOps workflows",
+    category: "Streaming & Media",
+    icon: <Monitor className="h-6 w-6" />,
+    items: ["MediaMTX", "WebRTC", "HLS", "FFmpeg", "NGINX RTMP", "Owncast", "Adaptive Bitrate"],
+    description: "Knowledge of streaming protocols and media servers.",
     proficiency: 70
   },
   {
-    category: "Monitoring & Observability",
-    icon: <Monitor className="h-6 w-6" />,
-    items: ["Prometheus", "Grafana", "ELK Stack", "Jaeger"],
-    description: "Comprehensive monitoring, logging, and distributed tracing",
-    proficiency: 60
-  },
-  {
-    category: "Database & Storage",
+    category: "Databases",
     icon: <Database className="h-6 w-6" />,
-    items: ["PostgreSQL", "MongoDB", "Redis", "Cloud Storage"],
+    items: ["PostgreSQL", "MongoDB", "Redis", "Cloud SQL"],
     description: "Database administration and cloud storage solutions",
     proficiency: 60
   },
   {
-    category: "Security & Compliance",
-    icon: <Shield className="h-6 w-6" />,
-    items: ["RBAC", "Network Security", "Secrets Management", "Compliance"],
-    description: "Security best practices and compliance frameworks",
-    proficiency: 75
-  },
-  {
-    category: "Performance & Scaling",
+    category: "Tools & Monitoring",
     icon: <Zap className="h-6 w-6" />,
-    items: ["Auto-scaling", "Load Balancing", "Performance Tuning", "Cost Optimization"],
-    description: "High-performance system design and cost-effective scaling",
+    items: ["Grafana", "Prometheus", "inotify", "zstd", "BoltDB"],
+    description: "Experience with monitoring and other tools.",
     proficiency: 70
   }
 ];
 
 const certifications = [
-  "Google Cloud Assistant Cloud Engineer",
+  "Google Cloud Associate Cloud Engineer",
 ];
+
 
 export default function About() {
   return (
     <section id="about" className="py-20 relative overflow-hidden">
       <div className="container mx-auto px-6">
         {/* About Me Section */}
-        <div className="grid lg:grid-cols-2 gap-16 items-start mb-32">
+        <div className="flex flex-col items-center text-center mb-32">
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="space-y-8"
+            className="space-y-8 max-w-4xl"
           >
             <div>
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                 About <span className="glow-text">Me</span>
               </h2>
               <p className="text-xl text-muted-foreground leading-relaxed mb-8">
-                I’m a passionate tech enthusiast with a unique journey that began in the vibrant 
-                world of textile business in Delhi. Fueled by curiosity and a drive to innovate, 
-                I pivoted to technology, diving headfirst into the dynamic fields of DevOps and cloud computing. 
-                In just under a month, I earned a Google Cloud certification, showcasing my ability to master 
-                complex systems quickly. My expertise now lies in building scalable solutions using 
-                tools like Terraform, Docker, and CI/CD pipelines, with hands-on experience in Google Cloud Platform.
+                Cloud & DevOps Engineer skilled in automating multi-service CI/CD pipelines and deploying scalable workloads on GCP and Kubernetes. Built internal tools to streamline Docker builds, improve caching, and reduce deployment time. Known for logical problem-solving, practical design, and a drive to simplify complex workflows.
               </p>
-              <p className="text-lg text-muted-foreground leading-relaxed">
-                Beyond tech, I’m an avid video game enthusiast, often immersing myself in strategic gameplay, 
-                and a dedicated chess player, where I enjoy the thrill of outsmarting opponents. 
-                My diverse background fuels my creativity, and I’m always eager to tackle new challenges, 
-                blending business acumen with technical precision to craft impactful solutions.
-              </p>
+              <Button size="lg" className="glow-border bg-gradient-secondary text-white" asChild>
+                <a href="/resume.pdf" download="resume.pdf">
+                  <Download className="mr-2 h-5 w-5" />
+                  Download Resume
+                </a>
+              </Button>
             </div>
           </motion.div>
+        </div>
 
+        {/* Experience Section */}
+        <div className="max-w-4xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
             className="space-y-8"
           >
-            <Card className="p-6 bg-card/80 backdrop-blur-sm glow-border">
-              <h3 className="text-xl font-bold mb-4 glow-text">Experience</h3>
-              <div className="space-y-6">
-                <div className="border-l-2 border-neon-purple pl-4">
-                  <h4 className="font-semibold text-lg">Dev-ops intern</h4>
-                  <p className="text-neon-blue">Hypr4 pvt. ltd. (June 2025 - present)</p>
-                  <div className="space-y-3 mt-2">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Design and deploy scalable cloud infrastructure using Terraform on Google Cloud Platform.</span>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Streamline development workflows with CI/CD pipelines using GitHub Actions.</span>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Manage project migrations, ensuring seamless data transitions to modern cloud environments.</span>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Test and optimize applications for performance and reliability in production.</span>
-                    </div>
+            <h2 className="text-4xl lg:text-5xl font-bold mb-16 text-center">
+              Work <span className="glow-text">Experience</span>
+            </h2>
+            <div className="relative">
+              <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-1 bg-gradient-to-b from-neon-purple to-neon-blue rounded-full"></div>
+              <div className="space-y-16">
+                <div className="flex items-center w-full">
+                  <div className="w-1/2 pr-8 text-right">
+                    <h4 className="font-semibold text-lg">Associate Cloud Engineer</h4>
+                    <p className="text-neon-blue">HYPR4 Cloud Tech</p>
+                    <p className="text-sm text-muted-foreground">Sep 2025 - Present</p>
+                  </div>
+                  <div className="w-12 h-12 bg-card border-2 border-neon-purple rounded-full flex-shrink-0 z-10 flex items-center justify-center">
+                    <Cloud className="h-6 w-6 text-neon-purple" />
+                  </div>
+                  <div className="w-1/2 pl-8">
+                    <Card className="p-6 bg-card/80 backdrop-blur-sm glow-border">
+                      <ul className="space-y-2">
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Designed and deployed scalable microservices architecture on GKE.</span></li>
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Automated CI/CD pipelines using Cloud Build and GitHub Actions.</span></li>
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Managed complete infrastructure lifecycle.</span></li>
+                      </ul>
+                    </Card>
                   </div>
                 </div>
-                <div className="border-l-2 border-neon-blue pl-4">
-                  <h4 className="font-semibold text-lg">Operations & Digital Strategy Manager</h4>
-                  <p className="text-neon-blue">Hritik Textiles (Aug 2021 - May 2025)</p>
-                  <div className="space-y-3 mt-2">
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Led a team of three to boost operational efficiency and achieve sales targets.</span>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Spearheaded digital transformation, launching online presence via WhatsApp, Meesho, YouTube, and Instagram.</span>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Increased sales by 30% through innovative digital strategies.</span>
-                    </div>
-                    <div className="flex items-start space-x-3">
-                      <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                      <span className="text-muted-foreground">Grew client base by 20% with a focus on customer satisfaction and retention.</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
 
-            <Card className="p-6 bg-card/80 backdrop-blur-sm glow-border">
-              <h3 className="text-xl font-bold mb-4 glow-text">Certifications</h3>
-              <div className="space-y-3">
-                {certifications.map((cert, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-gradient-accent rounded-full mt-3 flex-shrink-0" />
-                    <span className="text-muted-foreground">{cert}</span>
+                <div className="flex items-center w-full">
+                  <div className="w-1/2 pr-8 text-right">
+                    <h4 className="font-semibold text-lg">Pre-Sales Intern</h4>
+                    <p className="text-neon-blue">HYPR4 Cloud Tech</p>
+                    <p className="text-sm text-muted-foreground">Jun 2025 - Aug 2025</p>
                   </div>
-                ))}
+                  <div className="w-12 h-12 bg-card border-2 border-neon-blue rounded-full flex-shrink-0 z-10 flex items-center justify-center">
+                    <Zap className="h-6 w-6 text-neon-blue" />
+                  </div>
+                  <div className="w-1/2 pl-8">
+                    <Card className="p-6 bg-card/80 backdrop-blur-sm glow-border">
+                      <ul className="space-y-2">
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Deployed GCP environments using pre-built Terraform modules.</span></li>
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Handled manual deployments using yaml files and docker.</span></li>
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Delivered technical demos to clients.</span></li>
+                      </ul>
+                    </Card>
+                  </div>
+                </div>
+
+                <div className="flex items-center w-full">
+                  <div className="w-1/2 pr-8 text-right">
+                    <h4 className="font-semibold text-lg">Operations & Digital Strategy Manager</h4>
+                    <p className="text-neon-blue">Hritik Textiles</p>
+                    <p className="text-sm text-muted-foreground">Aug 2021 - May 2025</p>
+                  </div>
+                  <div className="w-12 h-12 bg-card border-2 border-neon-purple rounded-full flex-shrink-0 z-10 flex items-center justify-center">
+                    <Settings className="h-6 w-6 text-neon-purple" />
+                  </div>
+                  <div className="w-1/2 pl-8">
+                    <Card className="p-6 bg-card/80 backdrop-blur-sm glow-border">
+                      <ul className="space-y-2">
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Led a team of three to boost operational efficiency and achieve sales targets.</span></li>
+                        <li className="flex items-start"><div className="w-2 h-2 bg-gradient-accent rounded-full mt-2 mr-3"></div><span className="text-muted-foreground">Increased sales by 30% through innovative digital strategies.</span></li>
+                      </ul>
+                    </Card>
+                  </div>
+                </div>
               </div>
-            </Card>
+            </div>
           </motion.div>
         </div>
 
         <motion.div
-          className="text-center mb-16"
+          className="text-center my-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
@@ -197,7 +191,7 @@ export default function About() {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, index) => (
             <motion.div
               key={skill.category}

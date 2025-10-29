@@ -19,6 +19,7 @@ interface ProjectDialogProps {
       category: string;
       items: string[];
     }[];
+    image: string;
   } | null;
 }
 
@@ -420,6 +421,7 @@ export default function ProjectDialog({ isOpen, onClose, project }: ProjectDialo
             </div>
 
             <div className="bg-gradient-accent/10 border border-neon-purple/20 rounded-xl p-6">
+                <img src={project.image} alt={project.title} className="w-full h-auto rounded-lg mb-4" />
               <h3 className="text-xl font-semibold text-foreground mb-4 flex items-center">
                 <div className="w-2 h-2 bg-neon-purple rounded-full mr-3" />
                 Key Challenges
