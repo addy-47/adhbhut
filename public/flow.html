@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>streamlet Stage Feature Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .flow-section {
+            margin-bottom: 50px;
+        }
+
+        .flow-title {
+            font-size: 1.8em;
+            color: #667eea;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .flow-title .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2em;
+        }
+
+        .flow-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .flow-step {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .step-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            margin-top: 10px;
+        }
+
+        .step-content {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .api-call {
+            background: #fff;
+            border-left: 4px solid #667eea;
+            padding: 12px 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            color: #333;
+        }
+
+        .websocket {
+            border-left-color: #f093fb;
+        }
+
+        .whip {
+            border-left-color: #4facfe;
+        }
+
+        .hls {
+            border-left-color: #43e97b;
+        }
+
+        .code-block {
+            background: #2d3748;
+            color: #68d391;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+
+        .transition-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .transition-title {
+            font-weight: bold;
+            color: #c7522a;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .transition-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .transition-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #555;
+        }
+
+        .transition-list li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #c7522a;
+            font-weight: bold;
+        }
+
+        .key-apis {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .key-apis h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .api-item {
+            background: white;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .api-badge {
+            background: #667eea;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #667eea, transparent);
+            margin: 40px 0;
+        }
+
+        .actors {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .actor {
+            background: white;
+            border: 3px solid #667eea;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            min-width: 150px;
+        }
+
+        .actor-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .actor-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎭 streamlet Stage Feature</h1>
+            <p>Complete API Flow for Bringing Students On Stage</p>
+        </div>
+
+        <div class="content">
+            <!-- Actors Section -->
+            <div class="actors">
+                <div class="actor">
+                    <div class="actor-icon">👨‍🏫</div>
+                    <div class="actor-name">Teacher</div>
+                </div>
+                <div class="actor">
+                    <div class="actor-icon">👨‍🎓</div>
+                    <div class="actor-name">Student</div>
+                </div>
+                <div class="actor">
+                    <div class="actor-icon">👥</div>
+                    <div class="actor-name">Other Students</div>
+                </div>
+                <div class="actor">
+                    <div class="actor-icon">🖥️</div>
+                    <div class="actor-name">Backend</div>
+                </div>
+                <div class="actor">
+                    <div class="actor-icon">📡</div>
+                    <div class="actor-name">MediaMTX</div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Stage Invite Flow -->
+            <div class="flow-section">
+                <div class="flow-title">
+                    <div class="icon">📤</div>
+                    Stage Invite Flow
+                </div>
+
+                <div class="flow-container">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Teacher Sends Invite</div>
+                        <div class="step-content">
+                            <p>Teacher clicks "Invite to Stage" button</p>
+                            <div class="api-call websocket">
+                                WebSocket: on_stage_invite
+                            </div>
+                            <div class="code-block">{
+  "type": "on_stage_invite",
+  "payload": {
+    "userId": 2,
+    "classId": 1
+  }
+}</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Backend Processing</div>
+                        <div class="step-content">
+                            <p>Server validates and routes invitation</p>
+                            <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+                                <li>✓ Validate teacher role</li>
+                                <li>✓ Find target student</li>
+                                <li>✓ Send invitation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Student Receives Invite</div>
+                        <div class="step-content">
+                            <p>Student sees invitation modal</p>
+                            <div class="api-call websocket">
+                                WebSocket: on_stage_invite
+                            </div>
+                            <p style="margin-top: 10px;">Student clicks "Accept"</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Student Accepts</div>
+                        <div class="step-content">
+                            <p>Student sends acceptance response</p>
+                            <div class="api-call websocket">
+                                WebSocket: on_stage_response
+                            </div>
+                            <div class="code-block">{
+  "type": "on_stage_response",
+  "payload": {
+    "accepted": true,
+    "userId": 2
+  }
+}</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-title">P2P Setup</div>
+                        <div class="step-content">
+                            <p>Establish peer-to-peer connection</p>
+                            <div class="api-call">POST /api/p2p/sessions</div>
+                            <div class="api-call">POST /api/p2p/register-peer</div>
+                            <p style="margin-top: 10px;">STUN/TURN server configuration</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">6</div>
+                        <div class="step-title">PeerJS Signaling</div>
+                        <div class="step-content">
+                            <p>WebRTC connection establishment</p>
+                            <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+                                <li>✓ SDP offer/answer</li>
+                                <li>✓ ICE candidates</li>
+                                <li>✓ Media negotiation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">7</div>
+                        <div class="step-title">Student Media Stream</div>
+                        <div class="step-content">
+                            <p>Student camera/mic activated</p>
+                            <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+                                <li>📹 Get video stream</li>
+                                <li>🎤 Get audio stream</li>
+                                <li>📡 Send via P2P WebRTC</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">8</div>
+                        <div class="step-title">Stream Combination</div>
+                        <div class="step-content">
+                            <p>Teacher combines both streams</p>
+                            <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+                                <li>🎨 Side-by-side canvas</li>
+                                <li>🔊 Mixed audio tracks</li>
+                                <li>📊 Real-time rendering</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">9</div>
+                        <div class="step-title">Publish Combined Stream</div>
+                        <div class="step-content">
+                            <p>Push to MediaMTX server</p>
+                            <div class="api-call whip">WHIP POST: combined stream</div>
+                            <div class="code-block">POST /webrtc/live/combined/whip
+Content-Type: application/sdp</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">10</div>
+                        <div class="step-title">Broadcast Notification</div>
+                        <div class="step-content">
+                            <p>Notify all class participants</p>
+                            <div class="api-call websocket">
+                                WebSocket: student_on_stage
+                            </div>
+                            <div class="code-block">{
+  "type": "student_on_stage",
+  "payload": {
+    "studentId": 123,
+    "status": "active"
+  }
+}</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">11</div>
+                        <div class="step-title">Client Transitions</div>
+                        <div class="step-content">
+                            <div class="transition-box">
+                                <div class="transition-title">Coordinated Transition</div>
+                                <ul class="transition-list">
+                                    <li>Show loading indicators</li>
+                                    <li>Verify stream readiness</li>
+                                    <li>Same HLS URL</li>
+                                    <li>Smooth content switch</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">12</div>
+                        <div class="step-title">Stream Consumption</div>
+                        <div class="step-content">
+                            <p>All viewers watch combined stream</p>
+                            <div class="api-call hls">HLS GET: index.m3u8</div>
+                            <p style="margin-top: 10px;">👥 Other Students: HLS playback</p>
+                            <p>🎭 Stage Student: WebRTC WHEP</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Stage Leave Flow -->
+            <div class="flow-section">
+                <div class="flow-title">
+                    <div class="icon">📥</div>
+                    Stage Leave Flow
+                </div>
+
+                <div class="flow-container">
+                    <div class="flow-step">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Teacher Removes Student</div>
+                        <div class="step-content">
+                            <p>Teacher clicks "Remove from Stage"</p>
+                            <div class="api-call">POST /api/p2p/sessions/:id/end</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">2</div>
+                        <div class="step-title">End P2P Session</div>
+                        <div class="step-content">
+                            <p>Clean up peer connections</p>
+                            <ul style="list-style: none; padding-left: 0; margin-top: 10px;">
+                                <li>✓ Close WebRTC</li>
+                                <li>✓ Stop combined stream</li>
+                                <li>✓ Release resources</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Switch to Solo Stream</div>
+                        <div class="step-content">
+                            <p>Publish teacher-only stream</p>
+                            <div class="api-call whip">WHIP POST: solo stream</div>
+                            <p style="margin-top: 10px;">Same URL, original content</p>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Broadcast Leave Event</div>
+                        <div class="step-content">
+                            <p>Notify all participants</p>
+                            <div class="api-call websocket">
+                                WebSocket: student_left_stage
+                            </div>
+                            <div class="code-block">{
+  "type": "student_left_stage",
+  "payload": {
+    "studentId": 123,
+    "status": "ended"
+  }
+}</div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Client Transitions</div>
+                        <div class="step-content">
+                            <div class="transition-box">
+                                <div class="transition-title">Return to Solo View</div>
+                                <ul class="transition-list">
+                                    <li>Show loading state</li>
+                                    <li>Verify solo stream</li>
+                                    <li>Student: WebRTC → HLS</li>
+                                    <li>Others: Continue HLS</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flow-step">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Resume Normal Class</div>
+                        <div class="step-content">
+                            <p>Back to regular streaming</p>
+                            <div class="api-call hls">HLS GET: solo stream</div>
+                            <p style="margin-top: 10px;">All students watch teacher stream</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Key APIs Summary -->
+            <div class="key-apis">
+                <h3>🔑 Key API Calls Summary</h3>
+                <div class="api-item">
+                    <span class="api-badge">WS</span>
+                    <span>on_stage_invite - Teacher invites student</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">WS</span>
+                    <span>on_stage_response - Student accepts/declines</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">POST</span>
+                    <span>/api/p2p/sessions - Create P2P session</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">POST</span>
+                    <span>/api/p2p/register-peer - Register peer connections</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">POST</span>
+                    <span>/api/p2p/signal - WebRTC signaling</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">WHIP</span>
+                    <span>POST /webrtc/*/whip - Publish streams to MediaMTX</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">WS</span>
+                    <span>student_on_stage - Notify stage join</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">WS</span>
+                    <span>student_left_stage - Notify stage leave</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">HLS</span>
+                    <span>GET /*.m3u8 - Stream consumption</span>
+                </div>
+                <div class="api-item">
+                    <span class="api-badge">POST</span>
+                    <span>/api/p2p/sessions/:id/end - End P2P session</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

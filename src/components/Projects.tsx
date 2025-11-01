@@ -32,7 +32,7 @@ const projects = [
       { category: "Cloud", items: ["GCP Cloud Run", "Firebase"] },
       { category: "Media", items: ["FFmpeg", "WebSocket"] }
     ],
-    image: "/lazycreator.png"
+    image: "adhbhut/lazycreator.png"
   },
   {
     title: "Streamlet",
@@ -58,7 +58,7 @@ const projects = [
       { category: "Streaming", items: ["MediaMTX", "PeerJS", "Coturn"] },
       { category: "Deployment", items: ["Docker", "Nginx"] }
     ],
-    image: "/streamlet.png"
+    image: "adhbhut/streamlet.png"
   },
   {
     title: "Dockerz v2",
@@ -83,7 +83,7 @@ const projects = [
       { category: "CI/CD", items: ["Docker", "GitHub Actions"] },
       { category: "Cloud", items: ["Google Artifact Registry"] }
     ],
-    image: "/dockerz.png"
+    image: "adhbhut/dockerz.png"
   },
   {
     title: "u-cli",
@@ -108,7 +108,7 @@ const projects = [
       { category: "System", items: ["inotify", "zstd"] },
       { category: "Database", items: ["BoltDB"] }
     ],
-    image: "/u.png"
+    image: "adhbhut/u.png"
   },
   {
     title: "Go Blog App on GKE",
@@ -133,7 +133,7 @@ const projects = [
       { category: "Cloud", items: ["GKE", "Cloud SQL", "Google Artifact Registry"] },
       { category: "CI/CD", items: ["GitHub Actions"] }
     ],
-    image: "/go-blog-app-github-actions.png"
+    image: "adhbhut/go-blog-app-gke.png"
   },
   {
     title: "Go Blog App with Helm",
@@ -159,7 +159,7 @@ const projects = [
       { category: "Service Mesh", items: ["Istio"] },
       { category: "API", items: ["CRDs"] }
     ],
-    image: "/go-blog-app-helm.png"
+    image: "adhbhut/go-blog-app-helm.png"
   }
 ];
 
