@@ -21,42 +21,42 @@ const skills = [
   {
     category: "Languages",
     icon: <Code className="h-6 w-6" />,
-    items: ["Go", "Python", "C++", "TypeScript", "SQL", "Bash"],
+    items: ["Bash", "YAML", "C++", "Python", "Go", "TypeScript", "XML", "SQP"],
     description: "Proficient in multiple programming languages.",
-    proficiency: 90
+    proficiency: 60
   },
   {
     category: "Cloud & DevOps",
     icon: <Cloud className="h-6 w-6" />,
-    items: ["GCP", "GKE", "Cloud Build", "Cloudflare", "Docker", "Kubernetes", "Terraform", "CI/CD", "GitHub Actions"],
+    items: ["GCP", "Kubernetes", "Cloud Build", "Cloudflare", "Docker", "Terraform", "CI/CD", "GitHub Actions"],
     description: "Expertise in GCP with deep knowledge of cloud-native solutions",
-    proficiency: 80
+    proficiency: 85
   },
   {
     category: "Frameworks",
     icon: <Settings className="h-6 w-6" />,
-    items: ["Flask", "Fiber", "React", "Vue.js", "Node.js", "Tailwind CSS"],
+    items: ["Flask", "Fiber", "React", "Vue.js", "Node.js", "Tailwind CSS", "PeerJS", "WebSockets"],
     description: "Experience with various backend and frontend frameworks.",
-    proficiency: 75
+    proficiency: 70
   },
   {
     category: "Streaming & Media",
     icon: <Monitor className="h-6 w-6" />,
     items: ["MediaMTX", "WebRTC", "HLS", "FFmpeg", "NGINX RTMP", "Owncast", "Adaptive Bitrate"],
     description: "Knowledge of streaming protocols and media servers.",
-    proficiency: 70
+    proficiency: 75
   },
   {
     category: "Databases",
     icon: <Database className="h-6 w-6" />,
-    items: ["PostgreSQL", "MongoDB", "Redis", "Cloud SQL"],
+    items: ["PostgreSQL", "MongoDB", "Redis", "Cloud SQL", "RabbitMQ", "Qdrant", "BoltDB", "DuckDB"],
     description: "Database administration and cloud storage solutions",
-    proficiency: 60
+    proficiency: 65
   },
   {
     category: "Tools & Monitoring",
     icon: <Zap className="h-6 w-6" />,
-    items: ["Grafana", "Prometheus", "inotify", "zstd", "BoltDB"],
+    items: ["Grafana", "Prometheus", "inotify", "zstd"],
     description: "Experience with monitoring and other tools.",
     proficiency: 70
   }
@@ -190,7 +190,6 @@ export default function About() {
             Google Cloud Platform and modern infrastructure practices.
           </p>
         </motion.div>
-
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.map((skill, index) => (
             <motion.div

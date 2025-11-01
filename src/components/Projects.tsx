@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Github, Code, Cloud, Server, Database } from 'lucide-react';
+import { Github, Youtube, Network, Container, Undo, GitMerge, Ship } from 'lucide-react';
 import ProjectDialog from './ProjectDialog';
 
 const projects = [
@@ -17,7 +17,7 @@ const projects = [
       "AI-powered voiceover generation",
       "Direct YouTube upload integration"
     ],
-    icon: <Code className="h-6 w-6" />,
+    icon: <Youtube className="h-6 w-6" />,
     technologies: ["Flask", "React", "FFmpeg", "GCP Cloud Run", "MongoDB", "WebSocket"],
     github: "https://lazycreator.in",
     highlights: [
@@ -32,7 +32,7 @@ const projects = [
       { category: "Cloud", items: ["GCP Cloud Run", "Firebase"] },
       { category: "Media", items: ["FFmpeg", "WebSocket"] }
     ],
-    image: "assets/lazycreator.png"
+    image: "lazycreator.png"
   },
   {
     title: "Streamlet",
@@ -43,7 +43,7 @@ const projects = [
       "Reducing bandwidth costs by 50-95%",
       "Implementing a hybrid HLS and WebRTC P2P mesh"
     ],
-    icon: <Cloud className="h-6 w-6" />,
+    icon: <Network className="h-6 w-6" />,
     technologies: ["Go", "Fiber", "React", "WebRTC", "HLS", "MediaMTX", "PostgreSQL", "Redis", "Docker"],
     github: "https://github.com/addy-47/streamlet",
     highlights: [
@@ -56,9 +56,9 @@ const projects = [
       { category: "Backend", items: ["Go", "Fiber", "PostgreSQL", "Redis"] },
       { category: "Frontend", items: ["React", "WebRTC", "HLS"] },
       { category: "Streaming", items: ["MediaMTX", "PeerJS", "Coturn"] },
-      { category: "Deployment", items: ["Docker", "Nginx"] }
+      { category: "Deployment", items: [ "Docker", "Nginx"] }
     ],
-    image: "assets/streamlet.png"
+    image: "streamlet.png"
   },
   {
     title: "Dockerz v2",
@@ -69,7 +69,7 @@ const projects = [
       "Implementing Git + SHA256 change detection",
       "Supporting multi-level caching"
     ],
-    icon: <Server className="h-6 w-6" />,
+    icon: <Container className="h-6 w-6" />,
     technologies: ["Go", "Docker", "Google Artifact Registry"],
     github: "https://github.com/addy-47/scripts/tree/dockerz",
     highlights: [
@@ -83,7 +83,7 @@ const projects = [
       { category: "CI/CD", items: ["Docker", "GitHub Actions"] },
       { category: "Cloud", items: ["Google Artifact Registry"] }
     ],
-    image: "assets/dockerz.png"
+    image: "dockerz.png"
   },
   {
     title: "u-cli",
@@ -94,7 +94,7 @@ const projects = [
       "Using inotify and zstd for backups",
       "Supporting bash, zsh, and fish"
     ],
-    icon: <Database className="h-6 w-6" />,
+    icon: <Undo className="h-6 w-6" />,
     technologies: ["Go", "inotify", "zstd", "BoltDB"],
     github: "https://github.com/addy-47/scripts/tree/u-cli",
     highlights: [
@@ -108,7 +108,7 @@ const projects = [
       { category: "System", items: ["inotify", "zstd"] },
       { category: "Database", items: ["BoltDB"] }
     ],
-    image: "assets/u.png"
+    image: "u.png"
   },
   {
     title: "Go Blog App on GKE",
@@ -119,7 +119,7 @@ const projects = [
       "Using GAR and Workload Identity",
       "Incremental builds, Cloud SQL, auto-rollouts with zero downtime"
     ],
-    icon: <Code className="h-6 w-6" />,
+    icon: <GitMerge className="h-6 w-6" />,
     technologies: ["Go", "GKE", "GitHub Actions", "Google Artifact Registry", "Cloud SQL"],
     github: "https://github.com/addy-47/go-blog-app/tree/ci-cd",
     highlights: [
@@ -133,7 +133,7 @@ const projects = [
       { category: "Cloud", items: ["GKE", "Cloud SQL", "Google Artifact Registry"] },
       { category: "CI/CD", items: ["GitHub Actions"] }
     ],
-    image: "assets/go-blog-app-gke.png"
+    image: "go-blog-app-gke.png"
   },
   {
     title: "Go Blog App with Helm",
@@ -144,7 +144,7 @@ const projects = [
       "Extending Kubernetes API with CRDs",
       "Implementing a service mesh with Istio for mTLS and traffic management"
     ],
-    icon: <Code className="h-6 w-6" />,
+    icon: <Ship className="h-6 w-6" />,
     technologies: ["Go", "Kubernetes", "Helm", "Istio", "Minikube"],
     github: "https://github.com/addy-47/go-blog-app/tree/helm",
     highlights: [
@@ -159,7 +159,7 @@ const projects = [
       { category: "Service Mesh", items: ["Istio"] },
       { category: "API", items: ["CRDs"] }
     ],
-    image: "assets/go-blog-app-helm.png"
+    image: "go-blog-app-helm.png"
   }
 ];
 
