@@ -7,7 +7,19 @@ import { Badge } from '@/components/ui/badge';
 import { Github, Youtube, Network, Container, Undo, GitMerge, Ship } from 'lucide-react';
 import ProjectDialog from './ProjectDialog';
 
-const projects = [
+export interface Project {
+  title: string;
+  description: string;
+  fullDescription: string;
+  challenges: string[];
+  icon: React.ReactElement;
+  technologies: string[];
+  github: string;
+  highlights: string[];
+  image: string;
+}
+
+const projects: Project[] = [
   {
     title: "LazyCreator",
     description: "AI-powered YouTube Shorts automation platform.",
@@ -15,22 +27,18 @@ const projects = [
     challenges: [
       "Automated video generation for YouTube Shorts",
       "AI-powered voiceover generation",
-      "Direct YouTube upload integration"
+      "Direct YouTube upload integration",
+      "Real-time progress updates with WebSocket",
+      "Synchronising subtitles with AI-generated voiceovers"
     ],
     icon: <Youtube className="h-6 w-6" />,
-    technologies: ["Flask", "React", "FFmpeg", "GCP Cloud Run", "MongoDB", "WebSocket"],
+    technologies: ["Flask", "React", "FFmpeg", "GCP Cloud Run", "MongoDB", "WebSocket","Cloud Storage","OAuth2", "YouTube Data API","Automation", "Video Processing", "AI-generated Content", "Text-to-Speech", "Image Generation"],
     github: "https://lazycreator.in",
     highlights: [
       "AI-powered video generation",
       "Customizable video styles",
       "Secure authentication with Firebase",
       "Responsive design"
-    ],
-    techTree: [
-      { category: "Backend", items: ["Flask", "MongoDB"] },
-      { category: "Frontend", items: ["React", "Vite"] },
-      { category: "Cloud", items: ["GCP Cloud Run", "Firebase"] },
-      { category: "Media", items: ["FFmpeg", "WebSocket"] }
     ],
     image: "lazycreator.png"
   },
@@ -39,24 +47,20 @@ const projects = [
     description: "Scalable P2P live education streaming.",
     fullDescription: "A POC designed to support upto 300K concurrent users via HLS + WebRTC P2P mesh; 50--95% bandwidth saved . Fully functional features like private chat, public chat , stage invite , broadcast. Go Fiber backend, React frontend, MediaMTX, PostgreSQL,Coturn,PeerJS, Redis; fully Dockerized and deployed on VM",
     challenges: [
-      "Supporting 300K concurrent users",
-      "Reducing bandwidth costs by 50-95%",
-      "Implementing a hybrid HLS and WebRTC P2P mesh"
+      "Scaling challenges with high user concurrency",
+      "Reducing bandwidth costs by 50-95% with P2P ",
+      "Implementing a hybrid HLS and WebRTC P2P mesh",
+      "Real-time video mixing and broadcasting",
+      "Building interactive features like chat and stage invites"
     ],
     icon: <Network className="h-6 w-6" />,
-    technologies: ["Go", "Fiber", "React", "WebRTC", "HLS", "MediaMTX", "PostgreSQL", "Redis", "Docker"],
+    technologies: ["Go", "Fiber", "React", "WebRTC", "HLS", "MediaMTX", "PostgreSQL", "Redis", "Docker", "Coturn", "PeerJS", "P2P Networking", "Video Streaming", "WebSockets", "Real-time Communication", "Exceldraw Integration"],
     github: "https://github.com/addy-47/streamlet",
     highlights: [
       "Scalable to 300K concurrent users",
       "50-95% bandwidth savings",
       "P2P mesh network",
       "Real-time chat and interaction"
-    ],
-    techTree: [
-      { category: "Backend", items: ["Go", "Fiber", "PostgreSQL", "Redis"] },
-      { category: "Frontend", items: ["React", "WebRTC", "HLS"] },
-      { category: "Streaming", items: ["MediaMTX", "PeerJS", "Coturn"] },
-      { category: "Deployment", items: [ "Docker", "Nginx"] }
     ],
     image: "streamlet.png"
   },
@@ -67,21 +71,18 @@ const projects = [
     challenges: [
       "Cutting CI/CD time by 70%+",
       "Implementing Git + SHA256 change detection",
-      "Supporting multi-level caching"
+      "Supporting multi-level caching",
+      "Different environments compatibility",
+      "Packaging and distributing the CLI tool for simpple UX"
     ],
     icon: <Container className="h-6 w-6" />,
-    technologies: ["Go", "Docker", "Google Artifact Registry"],
+    technologies: ["Go", "Docker", "Google Artifact Registry", "Git", "SHA256", "CLI","Cobra","Debian packaging","CI/CD", "Release Automation"],
     github: "https://github.com/addy-47/scripts/tree/dockerz",
     highlights: [
       "Parallel builds",
       "Smart change detection",
       "Multi-level caching",
       "Google Artifact Registry integration"
-    ],
-    techTree: [
-      { category: "CLI", items: ["Go", "Cobra"] },
-      { category: "CI/CD", items: ["Docker", "GitHub Actions"] },
-      { category: "Cloud", items: ["Google Artifact Registry"] }
     ],
     image: "dockerz.png"
   },
@@ -92,21 +93,18 @@ const projects = [
     challenges: [
       "Creating a universal undo command for Linux",
       "Using inotify and zstd for backups",
-      "Supporting bash, zsh, and fish"
+      "Supporting bash, zsh, and fish",
+      "Ensuring minimal performance overhead",
+      "Kernel level changes without corrupting user data"
     ],
     icon: <Undo className="h-6 w-6" />,
-    technologies: ["Go", "inotify", "zstd", "BoltDB"],
+    technologies: ["Go", "inotify", "zstd", "BoltDB", "Linux Shells", "Bash", "Zsh", "Fish", "File System Monitoring", "Command Line Tools", "Data Compression"],
     github: "https://github.com/addy-47/scripts/tree/u-cli",
     highlights: [
       "Undo for mv, rm, cp",
       "inotify + zstd backups",
       "Works in bash, zsh, fish",
       "Single Go binary"
-    ],
-    techTree: [
-      { category: "CLI", items: ["Go", "Cobra"] },
-      { category: "System", items: ["inotify", "zstd"] },
-      { category: "Database", items: ["BoltDB"] }
     ],
     image: "u.png"
   },
@@ -128,11 +126,6 @@ const projects = [
       "Integration with Google Artifact Registry and Workload Identity",
       "Zero-downtime deployments"
     ],
-    techTree: [
-      { category: "Backend", items: ["Go"] },
-      { category: "Cloud", items: ["GKE", "Cloud SQL", "Google Artifact Registry"] },
-      { category: "CI/CD", items: ["GitHub Actions"] }
-    ],
     image: "go-blog-app-gke.png"
   },
   {
@@ -153,18 +146,12 @@ const projects = [
       "Secure service mesh with Istio",
       "mTLS between services"
     ],
-    techTree: [
-      { category: "Backend", items: ["Go"] },
-      { category: "Orchestration", items: ["Kubernetes", "Helm", "Minikube"] },
-      { category: "Service Mesh", items: ["Istio"] },
-      { category: "API", items: ["CRDs"] }
-    ],
     image: "go-blog-app-helm.png"
   }
 ];
 
 export default function Projects() {
-  const [selectedProject, setSelectedProject] = useState<typeof projects[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   
   return (
     <section id="projects" className="py-20 relative">
@@ -200,26 +187,27 @@ export default function Projects() {
               >
                 <div className="p-8">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-6">
+                  <div className="flex items-center justify-between mb-6">
                     <div className="flex items-center space-x-3">
-                      <div className="p-3 bg-gradient-accent rounded-lg text-white">
+                      <div className="p-3 bg-gradient-accent rounded-lg text-white flex-shrink-0">
                         {project.icon}
                       </div>
                       <div>
                         <h3 className="text-xl font-semibold">{project.title}</h3>
-                        <div className="flex space-x-2 mt-2">
-                          <Button 
-                            variant="ghost" 
-                            size="sm"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              window.open(project.github, '_blank');
-                            }}
-                          >
-                            <Github className="h-4 w-4" />
-                          </Button>
-                        </div>
                       </div>
+                    </div>
+                    <div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 rounded-md px-3"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          window.open(project.github, '_blank');
+                        }}
+                      >
+                        <Github className="h-4 w-4" />
+                      </Button>
                     </div>
                   </div>
 
