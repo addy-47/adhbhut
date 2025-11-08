@@ -168,6 +168,8 @@ export const ExperienceTimeline = () => {
               scrollBehavior: 'smooth',
               WebkitOverflowScrolling: 'touch',
               height: '540px', /* Adjusted height to accommodate wave and cards */
+              maskImage: 'linear-gradient(to right, transparent, black 300px, black calc(100% - 300px), transparent 100%)',
+              WebkitMaskImage: 'linear-gradient(to right, transparent, black 300px, black calc(100% - 300px), transparent 100%)',
             }}
           >
           <div
@@ -298,6 +300,14 @@ export const ExperienceTimeline = () => {
       </div>
       
       <style>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        
         .scrollbar-hide::-webkit-scrollbar {
           display: none;
         }
